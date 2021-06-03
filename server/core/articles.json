@@ -1,0 +1,252 @@
+{
+  "articles": [
+    {
+      "id": 1,
+      "date": "21-06-2018",
+      "title": "Vol vers Saint-Petersbourg",
+      "location": "Paris, France",
+      "summary": [
+        "Vol de 6h",
+        "France > Russie",
+        "Bombe à désamorcer",
+        "30min à vivre"
+      ],
+      "keywords": [
+        "serrure",
+        "ceinture",
+        "expérience",
+        "Tour Eiffel",
+        "vice",
+        "Mbappé"
+      ],
+      "spyKeywords": [
+        "porte",
+        "clé",
+        "formations",
+        "Cathédrale",
+        "champion",
+        "handball"
+      ],
+      "description": "L’avion en direction de Saint-Petersbourgh a connu un terrible tremblement le 21 Juin 2018. Une bombe placée dans la cabine de toilette de l’avion a fait paniquer les passagers pendant pas moins de 30min. Votre but est de retrouver le coupable capable de désamorcer cette bombe pour sauver la vie des 135 passagers, ainsi que la réputation de la compagnie Aire Ligne.",
+      "players": [
+        {
+          "role": "pilote",
+          "suspicious": [
+            {
+              "role": "mecanicien",
+              "description": "Vous êtes le dernier à être aller aux toilettes."
+            },
+            {
+              "role": "medecin",
+              "description": "Vous êtes plutôt longtemps aux toilettes, je trouve."
+            }
+          ]
+        },
+        {
+          "role": "mecanicien",
+          "suspicious": [
+            {
+              "role": "medecin",
+              "description": "Vous êtes resté très longtemps aux toilettes."
+            },
+            {
+              "role": "policier",
+              "description": "J'ai vu que vous étiez en train de communiquer discrètement sur votre téléphone."
+            }
+          ]
+        },
+        {
+          "role": "medecin",
+          "suspicious": [
+            {
+              "role": "policier",
+              "description": "On sait que vous n'aimez pas les immigrés... Raciste !"
+            },
+            {
+              "role": "homme d'affaire",
+              "description": "Le capitalisme sera à son paroxysme avec vous..."
+            }
+          ]
+        },
+        {
+          "role": "policier",
+          "suspicious": [
+            {
+              "role": "homme d'affaire",
+              "description": "Vous semblez trés stressé. Déclinez votre identité, monsieur."
+            },
+            {
+              "role": "pilote",
+              "description": "En même temps, lorsque nous sommes en présence d'incompétent..."
+            }
+          ]
+        },
+        {
+          "role": "homme d'affaire",
+          "suspicious": [
+            {
+              "role": "pilote",
+              "description": "Vous êtes musulman, non? Est-ce une attaque terroriste ?"
+            },
+            {
+              "role": "pilote",
+              "description": "Je peux vous payer ! Combien voulez-vous ?"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "date": "21-06-2018",
+      "title": "Vol vers Saint-Petersbourg",
+      "location": "Paris, France",
+      "summary": [
+        "Vol de 6h",
+        "France > Russie",
+        "Bombe à désamorcer",
+        "30min à vivre"
+      ],
+      "keywords": [
+        "serrure",
+        "ceinture",
+        "expérience",
+        "Tour Eiffel",
+        "vice",
+        "Mbappé"
+      ],
+      "spyKeywords": [
+        "porte",
+        "clé",
+        "formations",
+        "Cathédrale",
+        "champion",
+        "handball"
+      ],
+      "description": "L’avion en direction de Saint-Petersbourgh a connu un terrible tremblement le 21 Juin 2018. Une bombe placée dans la cabine de toilette de l’avion a fait paniquer les passagers pendant pas moins de 30min. Votre but est de retrouver le coupable capable de désamorcer cette bombe pour sauver la vie des 135 passagers, ainsi que la réputation de la compagnie Aire Ligne.",
+      "players": [
+        {
+          "role": "pilote",
+          "suspicious": [
+            {
+              "role": "mecanicien",
+              "description": "Aller en dernier au toilette"
+            }
+          ]
+        },
+        {
+          "role": "mecanicien",
+          "suspicious": [
+            {
+              "role": "medecin",
+              "description": "Rester très longtemps au toilette"
+            }
+          ]
+        },
+        {
+          "role": "medecin",
+          "suspicious": [
+            {
+              "role": "policier",
+              "description": "Raciste - dû au nombre de musulmans en France dans l’Avion + Aire Ligne"
+            }
+          ]
+        },
+        {
+          "role": "policier",
+          "suspicious": [
+            {
+              "role": "homme d'affaire",
+              "description": "Stressé et transpiration à l’arrivée dans l’avion"
+            }
+          ]
+        },
+        {
+          "role": "homme d'affaire",
+          "suspicious": [
+            {
+              "role": "pilote",
+              "description": "Vous êtes musulman. Est-ce une attaque terroriste ?"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "date": "21-06-2018",
+      "title": "Vol vers Saint-Petersbourg",
+      "location": "Paris, France",
+      "summary": [
+        "Vol de 6h",
+        "France > Russie",
+        "Bombe à désamorcer",
+        "30min à vivre"
+      ],
+      "keywords": [
+        "serrure",
+        "ceinture",
+        "expérience",
+        "Tour Eiffel",
+        "vice",
+        "Mbappé"
+      ],
+      "spyKeywords": [
+        "porte",
+        "clé",
+        "formations",
+        "Cathédrale",
+        "champion",
+        "handball"
+      ],
+      "description": "L’avion en direction de Saint-Petersbourgh a connu un terrible tremblement le 21 Juin 2018. Une bombe placée dans la cabine de toilette de l’avion a fait paniquer les passagers pendant pas moins de 30min. Votre but est de retrouver le coupable capable de désamorcer cette bombe pour sauver la vie des 135 passagers, ainsi que la réputation de la compagnie Aire Ligne.",
+      "players": [
+        {
+          "role": "pilote",
+          "suspicious": [
+            {
+              "role": "mecanicien",
+              "description": "Aller en dernier au toilette"
+            }
+          ]
+        },
+        {
+          "role": "mecanicien",
+          "suspicious": [
+            {
+              "role": "medecin",
+              "description": "Rester très longtemps au toilette"
+            }
+          ]
+        },
+        {
+          "role": "medecin",
+          "suspicious": [
+            {
+              "role": "policier",
+              "description": "Raciste - dû au nombre de musulmans en France dans l’Avion + Aire Ligne"
+            }
+          ]
+        },
+        {
+          "role": "policier",
+          "suspicious": [
+            {
+              "role": "homme d'affaire",
+              "description": "Stressé et transpiration à l’arrivée dans l’avion"
+            }
+          ]
+        },
+        {
+          "role": "homme d'affaire",
+          "suspicious": [
+            {
+              "role": "pilote",
+              "description": "Vous êtes musulman. Est-ce une attaque terroriste ?"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

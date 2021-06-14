@@ -9,22 +9,19 @@ import {
   IMGS
 } from "./../global"
 
-const COUNTDOWN_DURATION = 5
-
-
 const SCREEN_STATE = {
   "play": 0,
   "vote": 1,
   "result": 2
 }
 
-const Game = ({ socket, user, users, gameState, onFullscreen}) => {
-  const [showRound, setShowRound] = useState(false)
+const Game = ({ socket, user, users, gameState, playSettings, onFullscreen}) => {
   const [winner, setWinner] = useState(null)
   const [screen, setScreen] = useState(SCREEN_STATE["play"])
   const [isCounterActive, setCounterActive] = useState(false)
   const [seconds, setSeconds] = useState(0)
   const [validVote, setValidVote] = useState(false)
+
   const _usersWords = new Map()
   for(let i = 0; i < users.length; i++)
     _usersWords.set(users[i].id, []);
@@ -64,13 +61,13 @@ const Game = ({ socket, user, users, gameState, onFullscreen}) => {
   }, [isCounterActive, seconds]);
 
   useEffect(() => {
-    socket.on('game:end-turn', ({ users, gameState }) => {
+    socket.on('game:end-turn', () => {
       setSeconds(0)
     })
   }, [socket])
 
   useEffect(() => {
-    socket.on('game:countdown-tick', ({ users, gameState }) => {
+    socket.on('game:start-round-response', () => {
       setCounterActive(true)
     })
   }, [socket])
@@ -105,16 +102,6 @@ const Game = ({ socket, user, users, gameState, onFullscreen}) => {
               </div>
           </div>
           <button onClick={(e) => onRestart(e)}> RETOURNER AU LOBBY </button>
-        </div>
-      </div>
-    )
-  }
-
-  const renderRound = () => {
-    return (
-      <div className={"bg-future-cards"}>
-        <div className="winner-container">
-          <p> {`Round n°${gameState.round + 1}`} </p>
         </div>
       </div>
     )
@@ -210,7 +197,8 @@ const Game = ({ socket, user, users, gameState, onFullscreen}) => {
         className="avatars-container"
         style={{
           top: "17%",
-          left: "0%"
+          left: "0%",
+          transform: users.length > 6 ? 'scale(0.8)' : 'scale(1)'
         }}
       >
         {users.map((usr, index) => 
@@ -311,7 +299,8 @@ const Game = ({ socket, user, users, gameState, onFullscreen}) => {
         className="avatars-container"
         style={{
           top: "25%",
-          left: "0%"
+          left: "0%",
+          transform: users.length > 6 ? 'scale(0.8)' : 'scale(1)'
         }}
       >
         {users.map((usr, index) => 
@@ -335,9 +324,7 @@ const Game = ({ socket, user, users, gameState, onFullscreen}) => {
                 alt="role-img"
               />
             </div>
-            <div 
-              className="post-container"
-            >
+            <div className="post-container">
               <div 
                 className="pin-icon" 
                 style={{
@@ -393,6 +380,13 @@ const Game = ({ socket, user, users, gameState, onFullscreen}) => {
                 +{usr.currentScore} 
               </div>
             </div>
+            <div className="comments-users">
+              {usr.comments.map((comment, index) => (
+                <div key={index}> 
+                  <p> {comment} </p>
+                </div>
+              ))}
+            </div>
           </div>
         )}
       </div>
@@ -406,7 +400,8 @@ const Game = ({ socket, user, users, gameState, onFullscreen}) => {
         className="avatars-container"
         style={{
           top: "25%",
-          left: "0%"
+          left: "0%",
+          transform: users.length > 6 ? 'scale(0.8)' : 'scale(1)'
         }}
       >
         {users.map((usr, index) => 
@@ -426,9 +421,7 @@ const Game = ({ socket, user, users, gameState, onFullscreen}) => {
             }}
             onClick={() => onPlaceWord(usr.id)}
           >
-            <div 
-              className="post-container"
-            >
+            <div className="post-container">
               <div 
                 className="pin-icon" 
                 style={{
@@ -473,7 +466,7 @@ const Game = ({ socket, user, users, gameState, onFullscreen}) => {
             </div>
             {usr.id === gameState.currentPlayer && 
               <Progress 
-                percent={seconds * 100 / COUNTDOWN_DURATION} 
+                percent={seconds * 100 / gameState.duration} 
                 className="timer-bar" 
                 theme={{
                   success: {
@@ -706,6 +699,41 @@ const Game = ({ socket, user, users, gameState, onFullscreen}) => {
     )
   }
 
+  const onValidSettings = () => {
+    socket.emit('game:start-round')
+  }
+
+  const renderSettings = () => {
+    console.log("settings")
+    return (
+      <div className="bg-settings">
+        <div className="post-it">
+          <div className="post-container">
+            <div className="pin-icon"> </div>
+            <p className="post-text"> 
+              {gameState.article.title}
+            </p>
+          </div>
+        </div>
+
+        <div className="settings-post-it">
+          <div className="post-container">
+            <p> {gameState.article.description} </p>
+          </div>
+          <button onClick={() => onValidSettings()}> OK ! </button>
+        </div>
+      </div>
+    )
+  }
+
+  const renderTurn = () => {
+    return (
+      <div className="game-turn">
+        <p> Tour {gameState.round}/{gameState.nbRound} </p>
+      </div>
+    )
+  }
+
   return (
     <div id="game-board">
       <img 
@@ -714,6 +742,7 @@ const Game = ({ socket, user, users, gameState, onFullscreen}) => {
         onClick={onFullscreen}
         alt="full-screen"
       />
+      {renderTurn()}
     {
       screen === SCREEN_STATE["play"] ?
       <>
@@ -724,6 +753,7 @@ const Game = ({ socket, user, users, gameState, onFullscreen}) => {
         {renderKeywords()}
         {renderSummary()}
         {renderAdvice()}
+        {playSettings && renderSettings()}
       </>
       : screen === SCREEN_STATE["vote"] ?
       <>

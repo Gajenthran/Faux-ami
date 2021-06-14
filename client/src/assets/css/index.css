@@ -3,8 +3,5 @@
   padding: 0;
   box-sizing: border-box;
   color: black;
-}
-
-body {
-  font-family: 'Roboto', sans-serif;
+  font: small-caps bold 24px/1 sans-serif;
 }

@@ -2,22 +2,13 @@ const fs = require('fs')
 const path = require('path')
 const { getUserIndex } = require('./users')
 
-const NB_CARDS = 3
-const NB_CARDS_TO_DIST = 5
 const MIN_NB_PLAYERS = 4
-const NB_TURN = 1
-const NB_ROUND = 2
-// TODO: add to options
+
 const TEAM_ENUM = {
   "spy": 0,
   "protagonist": 1,
 }
 Object.freeze(TEAM_ENUM)
-
-
-const COUNTDOWN = 1000 * 2 // milliseconds
-
-const NB_KEYWORDS = 3
 
 const TEAM_SPLIT = [
   [1, 3],
@@ -26,6 +17,7 @@ const TEAM_SPLIT = [
   [3, 5],
   [3, 5],
 ]
+Object.freeze(TEAM_SPLIT)
 
 const CARDS_ENUM = {
   "secure": 0,
@@ -33,12 +25,6 @@ const CARDS_ENUM = {
   "bomb": 2
 }
 Object.freeze(CARDS_ENUM)
-
-const CARDS_IDS = [
-  { name: "secure", type: 0 },
-  { name: "defuse", type: 1 },
-  { name: "bomb", type: 2 }
-]
 
 const STATE_ENUM = {
   "idle": 0,
@@ -60,10 +46,6 @@ Object.freeze(STATE_ENUM)
  */
 const ARTICLES = ARTICLES_JSON.articles
 
-const getRandomInt = (max) => {
-  return Math.floor(Math.random() * max);
-};
-
 const shuffleArray = arr => {
   for (let i = arr.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
@@ -73,12 +55,6 @@ const shuffleArray = arr => {
   }
 }
 
-const removeArray = (arr, value) => {
-  const index = arr.indexOf(value) !== -1
-  if(index !== -1)
-    arr.splice(index, 1)
-}
-
 /**
  * Class representing the game.
  */
@@ -86,31 +62,31 @@ class Game {
   constructor(users, options) {
     this.users = users
 
-    this.round = 0
-    this.turn = 0
+    this.round = 1
+    this.turn = 1
+    // nbPlayer, nbTurn, nbKeywords, countdown, nbRound
+    this.options = options
+    this.countdown = null;
+    this.timer = null;
 
     this.articleIndexes = Array.from(Array(ARTICLES.length), (_, i) => i)
     shuffleArray(this.articleIndexes)
     // add nbTurn
-    this.articleIndexes = this.articleIndexes.slice(0, NB_ROUND);
+    this.articleIndexes = this.articleIndexes.slice(0, this.options.nbRound);
 
-    this.article = ARTICLES[this.articleIndexes[this.round]]
+    this.article = ARTICLES[this.articleIndexes[this.round - 1]]
 
-    // nbPlayer, nbTurn, nbCardsToDistribute, countdown, nbCardsToShow
-    this.options = options
-    this.countdown = null;
-    this.timer = null;
 
     const keywordsIndexes = Array.from(
       Array(this.article.keywords.length), (_, i) => i
     )
     shuffleArray(keywordsIndexes)
 
-    const keywords = new Array(NB_KEYWORDS).fill(null).map(
+    const keywords = new Array(this.options.nbKeywords).fill(null).map(
       (_, i) => this.article.keywords[keywordsIndexes[i]]
     )
 
-    const spyKeywords = new Array(NB_KEYWORDS).fill(null).map(
+    const spyKeywords = new Array(this.options.nbKeywords).fill(null).map(
       (_, i) => this.article.spyKeywords[keywordsIndexes[i]]
     )
 
@@ -134,16 +110,19 @@ class Game {
       this.users[i].voted = null
       this.users[i].score = 0
       this.users[i].currentScore = 0
+      this.users[i].comments = []
     }
 
     this.usersOrder = Array.from(Array(this.users.length), (_, index) => index)
     shuffleArray(this.usersOrder)
     this.currentPlayer = 0;
+
+    console.log(this.users)
   }
 
 
   update() {
-    if(this.turn === NB_TURN) {
+    if(this.turn > this.options.nbTurn) {
       this.resetCountdown()
       this.clearCountdown()
       return true
@@ -152,7 +131,7 @@ class Game {
     this.currentPlayer = (this.currentPlayer + 1) % this.users.length
     if(this.currentPlayer === 0) this.turn++
 
-    const endRound = this.turn === NB_TURN
+    const endRound = this.turn > this.options.nbTurn
     if(endRound) {
       this.resetCountdown()
       this.clearCountdown()
@@ -215,6 +194,8 @@ class Game {
       users: this.users,
       currentPlayer: this.users[this.usersOrder[this.currentPlayer]].id,
       round: this.round,
+      nbRound: this.options.nbRound,
+      duration: this.options.countdown,
       article: this.article
     })
   }
@@ -224,32 +205,48 @@ class Game {
   }
 
   endVote() {
-    const nbSpy = TEAM_SPLIT[this.users.length - MIN_NB_PLAYERS][TEAM_ENUM.spy]
-    for(let i = 0; i < nbSpy; i++) {
-      if(this.users[this.spyIndexes[i]].spy) {
+    for(let i = 0; i < this.users.length; i++) {
+      if(this.users[i].spy) {
         // TODO: strictement ou eq
-        const voters = this.users[this.spyIndexes[i]].vote;
-        if(voters.length < (this.users.length - 1) / 2) {
-          this.users[this.spyIndexes[i]].currentScore += 100;
-          if(voters.length === 0)
-            this.users[this.spyIndexes[i]].currentScore += 50;
+        const voters = this.users[i].vote;
+        if(voters.length < Math.ceil((this.users.length - 1) / 2)) {
+          this.users[i].currentScore += 100;
+          this.users[i].comments.push('+100 Discret')
+          if(voters.length === 0) {
+            this.users[i].currentScore += 50;
+            this.users[i].comments.push('+50 Incognito')
+          }
         }
-        this.users[this.spyIndexes[i]].score += 
-          this.users[this.spyIndexes[i]].currentScore;
+        this.users[i].score += this.users[i].currentScore;
       }
     }
 
-    for(let i = 0; i < this.users.length - nbSpy; i++) {
-      const userId = this.users[this.spyIndexes[i + nbSpy]].voted;
-      for(let s = 0; s < nbSpy; s++) {
-        const voted = this.users[this.spyIndexes[s]]
-          .vote
-          .find(usr => usr.id === userId);
-        if(voted) {
-          this.users[this.spyIndexes[i + nbSpy]].currentScore += 100
-          this.users[this.spyIndexes[i + nbSpy]].score += 
-            this.users[this.spyIndexes[i + nbSpy]].currentScore
-          break;
+    const spies = this.users.filter(usr => usr.spy === true)
+    let found = false
+    let onlyVoter = false
+    console.log(spies)
+    for(let i = 0; i < this.users.length; i++) {
+      if(!this.users[i].spy) {
+        found = false
+        onlyVoter = false
+        // const voted = spies.find(spy => spy.id === this.users[i].id)
+        for(let s = 0; s < spies.length; s++) {
+          const voted = spies[s].vote.find(v => v.id === this.users[i].id);
+          if(voted) {
+            onlyVoter = spies[s].vote.length === 1
+            found = true;
+            break;
+          }
+        }
+
+        if(found) {
+          this.users[i].currentScore += 100
+          this.users[i].comments.push('+100 Espion trouvé')
+          if(onlyVoter) {
+            this.users[i].currentScore += 50
+            this.users[i].comments.push('+50 Detektiv')
+          }
+          this.users[i].score += this.users[i].currentScore
         }
       }
     }
@@ -262,25 +259,25 @@ class Game {
   newRound() {
     this.round++
 
-    if(this.round >= NB_ROUND) {
+    if(this.round > this.options.nbRound) {
       this.rankUsers()
       return false;
     }
     
     
-    this.article = ARTICLES[this.articleIndexes[this.round]]
-    this.turn = 0;
+    this.article = ARTICLES[this.articleIndexes[this.round - 1]]
+    this.turn = 1;
 
     const keywordsIndexes = Array.from(
       Array(this.article.keywords.length), (_, i) => i
     )
     shuffleArray(keywordsIndexes)
 
-    const keywords = new Array(NB_KEYWORDS).fill(null).map(
+    const keywords = new Array(this.options.nbKeywords).fill(null).map(
       (_, i) => this.article.keywords[keywordsIndexes[i]]
     )
 
-    const spyKeywords = new Array(NB_KEYWORDS).fill(null).map(
+    const spyKeywords = new Array(this.options.nbKeywords).fill(null).map(
       (_, i) => this.article.spyKeywords[keywordsIndexes[i]]
     )
 
@@ -303,6 +300,7 @@ class Game {
       this.users[i].vote = []
       this.users[i].voted = null
       this.users[i].currentScore = 0
+      this.users[i].comments = []
     }
 
     this.usersOrder = Array.from(Array(this.users.length), (_, index) => index)
@@ -349,7 +347,7 @@ class Game {
     const now = new Date()
     this.timer = {
       start: now.getTime(),
-      end: now.getTime() + COUNTDOWN
+      end: now.getTime() + this.options.countdown * 1000
     }
   }
 

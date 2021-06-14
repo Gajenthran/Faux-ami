@@ -52,7 +52,7 @@ class FauxAmi {
       options,
     })
 
-    game.resetCountdown()
+    /* game.resetCountdown()
     game.clearCountdown()
     const timer = game.getTimer()
     io.to(user.room).emit('game:countdown-tick', game.getTimer())
@@ -73,9 +73,49 @@ class FauxAmi {
           gameState: game.getGameState(),
         });
       }
-    }, timer.end - timer.start)
+    }, timer.end - timer.start) */
 
     console.log(`FauxAmi. Create game: ${user.name}`)
+  }
+
+  startRound(io, socket) {
+    const user = getUser(this.users, socket.id)
+
+    if (!user) return { error: `Cannot connect with user.` }
+
+    if (this.game.get() !== undefined)
+      return { error: 'Cannot create the game: the room is already in game.' }
+
+    const game = this.game.get(user.room)
+
+    if (!game) return { error: "Game don't exist." }
+
+    game.resetCountdown()
+    game.clearCountdown()
+    const timer = game.getTimer()
+    io.to(user.room).emit('game:start-round-response')
+    io.to(user.room).emit('game:countdown-tick', game.getTimer())
+    game.setCountdown(() => {
+      io.to(user.room).emit('game:countdown-tick', game.getTimer())
+      const endRound = game.update()
+
+      if(endRound) {
+        console.log("end-round")
+        game.clearCountdown()
+        io.to(user.room).emit('game:end-round', {
+          users: game.getUsers(),
+          gameState: game.getGameState(),
+        });
+      } else {
+        io.to(user.room).emit('game:end-turn', {
+          users: game.getUsers(),
+          gameState: game.getGameState(),
+        });
+      }
+    }, timer.end - timer.start)
+
+    console.log(`FauxAmi. Create game: ${user.name}`) 
+
   }
 
   newRound(io, socket) {
@@ -106,7 +146,7 @@ class FauxAmi {
         gameState: game.getGameState(),
       });
 
-      game.resetCountdown()
+      /* game.resetCountdown()
       game.clearCountdown()
       const timer = game.getTimer()
       io.to(user.room).emit('game:countdown-tick', game.getTimer())
@@ -126,7 +166,7 @@ class FauxAmi {
             gameState: game.getGameState(),
           });
         }
-      }, timer.end - timer.start)
+      }, timer.end - timer.start) */
     }
   }
 
@@ -255,7 +295,6 @@ class FauxAmi {
 
     game.vote(socket.id, userId)
 
-    console.log(game.getUsers())
     io.to(user.room).emit(`game:vote-response`, { users: game.getUsers() })
   }
 
@@ -292,12 +331,7 @@ class FauxAmi {
 
     if (!user) {
       return { error: "User don't exist." }
-    } /* else {
-      if (user.turn) {
-        console.log("You can't two times in the same round.")
-        return { error: "You can't two times in the same round." }
-      }
-    } */
+    }
 
     const game = this.game.get(user.room)
 

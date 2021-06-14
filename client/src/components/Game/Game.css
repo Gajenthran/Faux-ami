@@ -155,6 +155,16 @@ body {
   background-color: #101013;
 }
 
+.bg-settings {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 10;
+  background-color: rgba(0, 0, 0, 0.75);
+}
+
 .bg-future-cards {
   position: absolute;
   top: 0;
@@ -398,6 +408,11 @@ body {
   font-size: 30px;
 }
 
+.settings-post-it .post-container p {
+  font-size: 25px;
+  padding: 20px;
+}
+
 .pin-icon {
   width: 20px;
   height: 20px;
@@ -437,6 +452,28 @@ body {
 .keywords-users, .users-score {
   position: absolute;
   top: 240px;
+  z-index: 2 !important;
+}
+
+.comments-users {
+  position: absolute;
+  top: 330px;
+}
+
+.comments-users p {
+  width: 170px;
+  text-align: center;
+  padding: 5px;
+  margin: 0;
+  margin-bottom: 15px;
+  font-size: 18px;
+  background-color: rgb(216, 202, 184);
+  color: black;
+  cursor: pointer;
+  transition: 250ms;
+  transform: rotateZ(-3deg);
+  box-shadow: 2px 2px 0 rgba(0, 0, 0, .5);
+  animation: popup .5s linear;
 }
 
 .vote-users {
@@ -450,7 +487,7 @@ body {
   padding-right: 20px;
 }
 
-.keywords-users p, .users-score p {
+.keywords-users p, .users-score p, .comment-users p {
   width: 170px;
   text-align: center;
   padding: 5px;
@@ -526,7 +563,7 @@ body {
   margin: 0;
   margin-bottom: 20px;
   background-color: rgb(216, 202, 184);
-  box-shadow: 0 5px 5px rgba(0, 0, 0, 0.25);
+  box-shadow: 0 5px 5px rgba(0, 0, 0, 0.5);
   cursor: pointer;
 }
 
@@ -750,4 +787,62 @@ body {
 .game-full-screen:active {
   -webkit-transform: scale(0.9);
   transform: scale(0.9);
+}
+
+.settings-post-it {
+  width: 50%;
+  height: 50%;
+  background-color: rgb(216, 202, 184);
+  position: absolute;
+  top: 25%;
+  left: 25%;
+  box-shadow: 0 5px 5px rgba(0, 0, 0, 0.25);
+  z-index: 1;
+}
+
+.settings-post-it button {
+  position: absolute;
+  top: 450px;
+  left: 35%;
+  transition: 250ms;
+  width: 200px;
+  text-align: center;
+  padding: 10px;
+  margin: 0;
+  background-color: rgb(216, 202, 184);
+  box-shadow: 5px 5px 0px rgba(0, 0, 0, .5);
+  cursor: pointer;
+  border: none;
+  transform: rotateZ(-2deg);
+}
+
+.settings-post-it button:hover {
+  transform: scale(1.1);
+}
+
+.settings-post-it button:active {
+  transform: scale(0.7);
+  background-color: rgb(248, 232, 212);
+  box-shadow: 0px 0px 0px rgba(0, 0, 0, .5);
+}
+
+.game-turn {
+  transition: 250ms;
+  position: absolute;
+  bottom: 40px;
+  left: -70px;
+  background-color: rgb(248, 232, 212);
+  transform: rotateZ(-2deg);
+  cursor: pointer;
+}
+
+.game-turn p {
+  font-size: 30px;
+  margin: 0;
+  padding: 5px 10px;
+  box-shadow: 0 5px 5px rgba(0, 0, 0, 0.25);
+}
+
+.game-turn:hover {
+  transform: rotateZ(-2deg) translateX(70px);
 }

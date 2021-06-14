@@ -89,8 +89,47 @@
               "description": "Vous êtes musulman, non? Est-ce une attaque terroriste ?"
             },
             {
-              "role": "pilote",
+              "role": "ex-voleur",
               "description": "Je peux vous payer ! Combien voulez-vous ?"
+            }
+          ]
+        },
+        {
+          "role": "ex-voleur",
+          "suspicious": [
+            {
+              "role": "policier",
+              "description": "Pourquoi avez-vous fait le tour des lieux lors du vol ?"
+            },
+            {
+              "role": "influenceur",
+              "description": "Je reconnais les mimiques d'un malfrat"
+            }
+          ]
+        },
+        {
+          "role": "influenceur",
+          "suspicious": [
+            {
+              "role": "inspecteur",
+              "description": "Pourquoi avez-vous fait le tour des lieux lors du vol ?"
+            },
+            {
+              "role": "mecanicien",
+              "description": "C'est suspect que vous ne vérifiez pas ça..."
+            }
+          ]
+        },
+        {
+          "role": "inspecteur",
+          "suspicious": [
+            {
+              "role": "influenceur",
+              "description": "Bombe > Buzz > TT > Stonks > Célébrité > Riche"
+            },
+            {
+              "role": "homme d'affaire",
+              "description": "Hmmm... je vois que vous avez sorti 87 fois votre téléphone"
             }
           ]
         }
@@ -98,75 +137,134 @@
     },
     {
       "id": 2,
-      "date": "21-06-2018",
-      "title": "Vol vers Saint-Petersbourg",
-      "location": "Paris, France",
+      "date": "02-01-2017",
+      "title": "Le nouvel ambre 2017",
+      "location": "Privet Drive, Little Whinging",
       "summary": [
-        "Vol de 6h",
-        "France > Russie",
-        "Bombe à désamorcer",
-        "30min à vivre"
+        "Fête du nouvel an",
+        "Vol d'un ambre",
+        "Très récent",
+        "00:17"
       ],
       "keywords": [
-        "serrure",
-        "ceinture",
-        "expérience",
-        "Tour Eiffel",
-        "vice",
-        "Mbappé"
+        "sac à dos",
+        "bijou",
+        "attaque",
+        "légende",
+        "livre",
+        "égouts"
       ],
       "spyKeywords": [
-        "porte",
-        "clé",
-        "formations",
-        "Cathédrale",
-        "champion",
-        "handball"
+        "porte-monnaie",
+        "collier",
+        "aggresser",
+        "pauvre",
+        "chapeau",
+        "ravissante"
       ],
-      "description": "L’avion en direction de Saint-Petersbourgh a connu un terrible tremblement le 21 Juin 2018. Une bombe placée dans la cabine de toilette de l’avion a fait paniquer les passagers pendant pas moins de 30min. Votre but est de retrouver le coupable capable de désamorcer cette bombe pour sauver la vie des 135 passagers, ainsi que la réputation de la compagnie Aire Ligne.",
+      "description": "Emma décida d'organiser une fête dans sa rue Privet Drive afin de célébrer le nouvel an 2017. Elle invita donc tous ses proches à cet évènement. Les lumières du Little Whinging s'assombrissaient pour laisser place aux feux d'artifices concocter par la mère d'Emma. Soudain, la jeune fille ressentit un frottement au niveau de sa hanche gauche. En effet, quelqu'un vient de lui dérober son bracelet en ambre. Qui a bien pu voler le précieux bijou d'Emma ?",
       "players": [
         {
-          "role": "pilote",
+          "role": "mère",
           "suspicious": [
             {
-              "role": "mecanicien",
-              "description": "Aller en dernier au toilette"
+              "role": "père",
+              "description": "T'as peur qu'elle porte des objets de grande valeur"
+            },
+            {
+              "role": "voisin",
+              "description": "Nous n'avons toujours pas récupérer notre clavier..."
             }
           ]
         },
         {
-          "role": "mecanicien",
+          "role": "père",
           "suspicious": [
             {
-              "role": "medecin",
-              "description": "Rester très longtemps au toilette"
+              "role": "voisin",
+              "description": "Je sais que tu as un penchant pour ce genre d'objet"
+            },
+            {
+              "role": "petit ami",
+              "description": "Michtonneur un jour. Michtonneur toujours."
             }
           ]
         },
         {
-          "role": "medecin",
+          "role": "voisin",
           "suspicious": [
             {
-              "role": "policier",
-              "description": "Raciste - dû au nombre de musulmans en France dans l’Avion + Aire Ligne"
+              "role": "petit ami",
+              "description": "Il me semble que tu l'avais essayé la dernière fois"
+            },
+            {
+              "role": "oncle",
+              "description": "Il me semble qu'il y avait également votre oncle dans une autre affaire de vol"
             }
           ]
         },
         {
-          "role": "policier",
+          "role": "petit ami",
           "suspicious": [
             {
-              "role": "homme d'affaire",
-              "description": "Stressé et transpiration à l’arrivée dans l’avion"
+              "role": "oncle",
+              "description": "Il me semble qu'il y avait également votre oncle dans une autre affaire de vol"
+            },
+            {
+              "role": "neveu",
+              "description": "T'es déjà parti en prison pour ça..."
             }
           ]
         },
         {
-          "role": "homme d'affaire",
+          "role": "oncle",
           "suspicious": [
             {
-              "role": "pilote",
-              "description": "Vous êtes musulman. Est-ce une attaque terroriste ?"
+              "role": "neveu",
+              "description": "T'as un regard très suspect. Est-ce toi ?"
+            },
+            {
+              "role": "tante",
+              "description": "Fouille tout de même tes poches. On sait jamais vu tes origines..."
+            }
+          ]
+        },
+        {
+          "role": "neveu",
+          "suspicious": [
+            {
+              "role": "tante",
+              "description": "Tu tenais pas un truc jaune tout à l'heure ?"
+            },
+            {
+              "role": "soeur",
+              "description": "Ca sera pas ta première fois. On sait tous que tu n'aimes pas ta sœur"
+            }
+          ]
+        },
+        {
+          "role": "tante",
+          "suspicious": [
+            {
+              "role": "soeur",
+              "description": "La dernière fois, son téléphone. Maintenant, son bracelet."
+            },
+            {
+              "role": "mère",
+              "description": "C'est pas toi qui l'a caché pour éviter qu'on lui vole ?"
+            }
+          ]
+        },
+        {
+          "role": "soeur",
+          "suspicious": [
+            {
+              "role": "père",
+              "description": "Pourquoi tu t'es empressé de retourner à la maison quand il faisait noir ?"
+            },
+            {
+              "role": "mère",
+              "description": "Tu voulais la punir pour son devoir raté ?"
             }
           ]
         }
@@ -174,77 +272,505 @@
     },
     {
       "id": 3,
-      "date": "21-06-2018",
-      "title": "Vol vers Saint-Petersbourg",
-      "location": "Paris, France",
+      "date": "19-03-2019",
+      "title": "Mère décède sur une Mercedes",
+      "location": "Edinburg, Texas",
       "summary": [
-        "Vol de 6h",
-        "France > Russie",
-        "Bombe à désamorcer",
-        "30min à vivre"
+        "Mercedes",
+        "Meutre",
+        "Délit de fuite",
+        "Richesse orgueilleuse"
       ],
       "keywords": [
-        "serrure",
-        "ceinture",
-        "expérience",
-        "Tour Eiffel",
-        "vice",
-        "Mbappé"
+        "pare-chocs",
+        "poitrine",
+        "puéril",
+        "somnambule",
+        "accéléré",
+        "pédale"
       ],
       "spyKeywords": [
-        "porte",
-        "clé",
-        "formations",
-        "Cathédrale",
-        "champion",
-        "handball"
+        "lumière",
+        "fesse",
+        "choquant",
+        "alcoolique",
+        "fusée",
+        "siège"
       ],
-      "description": "L’avion en direction de Saint-Petersbourgh a connu un terrible tremblement le 21 Juin 2018. Une bombe placée dans la cabine de toilette de l’avion a fait paniquer les passagers pendant pas moins de 30min. Votre but est de retrouver le coupable capable de désamorcer cette bombe pour sauver la vie des 135 passagers, ainsi que la réputation de la compagnie Aire Ligne.",
+      "description": "La mère de Victor nous quitta le 19 Mars 2019 suite à un choc à 50km/h entre elle et une Mercedes mercedes x250d 4matic. Un passager expliqua que les twerks incessants de la femme face à la voiture provoquèrent la colère du conducteur. L'individu n'a toujours pas été démasqué. A vous de le retrouver !",
       "players": [
         {
-          "role": "pilote",
-          "suspicious": [
-            {
-              "role": "mecanicien",
-              "description": "Aller en dernier au toilette"
-            }
-          ]
+          "role": "chauffeur",
+          "suspicious": []
         },
         {
-          "role": "mecanicien",
-          "suspicious": [
-            {
-              "role": "medecin",
-              "description": "Rester très longtemps au toilette"
-            }
-          ]
+          "role": "enfant",
+          "suspicious": []
         },
         {
-          "role": "medecin",
-          "suspicious": [
-            {
-              "role": "policier",
-              "description": "Raciste - dû au nombre de musulmans en France dans l’Avion + Aire Ligne"
-            }
-          ]
+          "role": "garagiste",
+          "suspicious": []
+        },
+        {
+          "role": "le passager",
+          "suspicious": []
+        },
+        {
+          "role": "mère",
+          "suspicious": []
+        },
+        {
+          "role": "le propriétaire",
+          "suspicious": []
+        },
+        {
+          "role": "le collègue du taff",
+          "suspicious": []
+        },
+        {
+          "role": "avocat",
+          "suspicious": []
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "date": "11-05-2021",
+      "title": "Un papy ou une mamie rackette les mendiants",
+      "location": "Lourdes, France",
+      "summary": [
+        "Papy / Mamie",
+        "Mendiants",
+        "Génération miracle",
+        "Témoins ?"
+      ],
+      "keywords": [
+        "profiter",
+        "refuge",
+        "maigre",
+        "grotte",
+        "chapelet",
+        "entraves"
+      ],
+      "spyKeywords": [
+        "encaisser",
+        "sable",
+        "large",
+        "caverne",
+        "corne",
+        "délibérément"
+      ],
+      "description": "A Lourdes, un individu très âgé avaient été repéré en train de racketter des mendiants. Certains passants témoignèrent même que ces actions avaient réitéré ces dernières semaines. Cependant, ils n'ont pas réussi à voir si il s'agit d'une femme ou d'un homme. Les témoins vont nous aider à éclaircir cette situation.",
+      "players": [
+        {
+          "role": "mamie",
+          "suspicious": []
+        },
+        {
+          "role": "papy",
+          "suspicious": []
+        },
+        {
+          "role": "passant",
+          "suspicious": []
+        },
+        {
+          "role": "mendiant",
+          "suspicious": []
+        },
+        {
+          "role": "prêtre",
+          "suspicious": []
+        },
+        {
+          "role": "boulanger",
+          "suspicious": []
         },
         {
           "role": "policier",
-          "suspicious": [
-            {
-              "role": "homme d'affaire",
-              "description": "Stressé et transpiration à l’arrivée dans l’avion"
-            }
-          ]
+          "suspicious": []
         },
         {
-          "role": "homme d'affaire",
-          "suspicious": [
-            {
-              "role": "pilote",
-              "description": "Vous êtes musulman. Est-ce une attaque terroriste ?"
-            }
-          ]
+          "role": "fils du papy",
+          "suspicious": []
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "date": "06-07-2023",
+      "title": "Off: CR7 signe au PSG. Bonne ou mauvaise idée ?",
+      "location": "Paris, France",
+      "summary": [
+        "CR7",
+        "Juventus > PSG",
+        "Mercato d'été",
+        "Avis"
+      ],
+      "keywords": [
+        "prime",
+        "dent",
+        "vivacité",
+        "planter",
+        "Hazard",
+        "pantoufle"
+      ],
+      "spyKeywords": [
+        "maillot",
+        "genoux",
+        "abnégation",
+        "lucarne",
+        "Messi",
+        "chemise"
+      ],
+      "description": "Coup de tonnere qui s'abat sur la ville de Paris. Le très récent sextuple Ballon d'Or, Cristiano Ronaldo, également connu sous le nom de CR7, vient de signer au Paris Saint-Germain afin de parachever sa carrière. Il récupérera notamment le n°7 laisser vacant par Mbappé. Alors, bonne ou mauvaise idée ?",
+      "players": [
+        {
+          "role": "nasser",
+          "suspicious": []
+        },
+        {
+          "role": "neymar",
+          "suspicious": []
+        },
+        {
+          "role": "journaliste",
+          "suspicious": []
+        },
+        {
+          "role": "supporter psg",
+          "suspicious": []
+        },
+        {
+          "role": "pique",
+          "suspicious": []
+        },
+        {
+          "role": "entraineur",
+          "suspicious": []
+        },
+        {
+          "role": "agent",
+          "suspicious": []
+        },
+        {
+          "role": "mbappe",
+          "suspicious": []
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "date": "17-06-2015",
+      "title": "Temps détraqué et expériences diaboliques",
+      "location": "Mexico, Mexique",
+      "summary": [
+        "Temps détraqué",
+        "Climat",
+        "Sorcier",
+        "Danger"
+      ],
+      "keywords": [
+        "conspiration",
+        "souterrain",
+        "robe",
+        "ozone",
+        "prestidigitateur",
+        "contrôle"
+      ],
+      "spyKeywords": [
+        "aveux",
+        "planète",
+        "voile",
+        "énergie",
+        "communauté",
+        "poignet"
+      ],
+      "description": "Tantôt la pluie s'abattit sur les toits de Mexico, tantôt le soleil illuminait les rues de Mexico. Nous ne sûmes plus où donner de la tête. Ces changements de temps avaient le don d'agacer les habitants de la ville qui décidèrent de choisir un bouc émissaire. Entre explication rationnelle et expériences spirituelles, les mexicains tentèrent de prendre parti avec chacun son lot d'arguments. A votre avis, qui peut bien être à l'auteur de ces expériences ?",
+      "players": [
+        {
+          "role": "climatologue",
+          "suspicious": []
+        },
+        {
+          "role": "druide",
+          "suspicious": []
+        },
+        {
+          "role": "ingé aéronautique",
+          "suspicious": []
+        },
+        {
+          "role": "météorologue",
+          "suspicious": []
+        },
+        {
+          "role": "socière anonyme",
+          "suspicious": []
+        },
+        {
+          "role": "physicien",
+          "suspicious": []
+        },
+        {
+          "role": "mangaka",
+          "suspicious": []
+        },
+        {
+          "role": "méxicain",
+          "suspicious": []
+        }
+      ]
+    },
+    {
+      "id": 7,
+      "date": "10-06-2021",
+      "title": "Un champion de tennis qui se fait headshot",
+      "location": "Paris, France",
+      "summary": [
+        "Tennis",
+        "Roland-Garros",
+        "Balle dans la tête",
+        "Triche"
+      ],
+      "keywords": [
+        "match",
+        "infatiguable",
+        "uniqlo",
+        "wimbledon",
+        "soins",
+        "amorti"
+      ],
+      "spyKeywords": [
+        "set",
+        "dopage",
+        "voile",
+        "grand chelem",
+        "déchirure",
+        "coup droit"
+      ],
+      "description": "Roland-Garros, Dalna en a fait sa maison depuis plusieurs années. Celui-ci a même été accusé de tricherie ces dernières semaines suite à ses récentes performances exceptionnelles. Complots ou haines ? Cette affaire a pris une telle ampleur que l'intéressé a reçu 7 balles de 9mm dans la tête. Tentez de retrouver le coupable grâce aux différents témoignages récoltés pour venger les cicatrices du grand Dalna.",
+      "players": [
+        {
+          "role": "entraîneur",
+          "suspicious": []
+        },
+        {
+          "role": "dérerfé",
+          "suspicious": []
+        },
+        {
+          "role": "kiné",
+          "suspicious": []
+        },
+        {
+          "role": "soigneur",
+          "suspicious": []
+        },
+        {
+          "role": "directeur de rg",
+          "suspicious": []
+        },
+        {
+          "role": "commentateur",
+          "suspicious": []
+        },
+        {
+          "role": "arbitre",
+          "suspicious": []
+        },
+        {
+          "role": "ramasseur",
+          "suspicious": []
+        }
+      ]
+    },
+    {
+      "id": 8,
+      "date": "10-06-2021",
+      "title": "S21 Ultra ou iPhone 12 Pro Max",
+      "location": "Suwon, Corée du Sud",
+      "summary": [
+        "smartphone",
+        "Samsung",
+        "Apple",
+        "comparaison"
+      ],
+      "keywords": [
+        "stabilité",
+        "adamantium",
+        "ios",
+        "rhinoshield",
+        "vestige",
+        "caméra"
+      ],
+      "spyKeywords": [
+        "fragile",
+        "lithium",
+        "android",
+        "mise à jour",
+        "prestige",
+        "empreinte"
+      ],
+      "description": "Au beau milieu de cette année 2021, il est temps de faire un point sur les différents téléphones portables qui dominent le marché. Il serait donc judicieux de se pencher sur les téléphones les plus intéressants à acheter pour cet été. Les deux téléphones prenant la tête du peloton sont les suivants: iPhone 12 Pro Max d'Apple et le Samsung Galaxy S21 Ultra. C'est à vous désormais de choisir votre camp en essayant d'avancer des arguments pertinents pour défendre votre téléphone préféré.",
+      "players": [
+        {
+          "role": "pro S21",
+          "suspicious": []
+        },
+        {
+          "role": "pro iphone",
+          "suspicious": []
+        },
+        {
+          "role": "technicien",
+          "suspicious": []
+        },
+        {
+          "role": "scientifique",
+          "suspicious": []
+        },
+        {
+          "role": "jojol",
+          "suspicious": []
+        },
+        {
+          "role": "boomer",
+          "suspicious": []
+        },
+        {
+          "role": "réparateur",
+          "suspicious": []
+        },
+        {
+          "role": "développeur",
+          "suspicious": []
+        }
+      ]
+    },
+    {
+      "id": 9,
+      "date": "07-06-2020",
+      "title": "Le Japon élit One Piece !",
+      "location": "Kumamoto, Japon",
+      "summary": [
+        "One piece > Naruto",
+        "Sondage",
+        "Japon",
+        "Débat"
+      ],
+      "keywords": [
+        "planche",
+        "malade imaginaire",
+        "patte",
+        "histoire",
+        "cuillère",
+        "minuscule"
+      ],
+      "spyKeywords": [
+        "reliure",
+        "boruto",
+        "réflexion",
+        "aventure",
+        "fouet",
+        "lent"
+      ],
+      "description": "Pour mettre un terme au incessant débat autour du manga de tous les temps. Le Japon a décidé de mettre en place un énorme sondage regroupant tous les mangas iconiques tels que One Piece, Naruto, DBZ, Bleach, HxH... Le résultat de ce sondage offrit la victoire à la bande de Luffy. Cependant, ce dernier fait débat...",
+      "players": [
+        {
+          "role": "pro Naruto",
+          "suspicious": []
+        },
+        {
+          "role": "pro op",
+          "suspicious": []
+        },
+        {
+          "role": "scénariste",
+          "suspicious": []
+        },
+        {
+          "role": "mangaka",
+          "suspicious": []
+        },
+        {
+          "role": "designer",
+          "suspicious": []
+        },
+        {
+          "role": "lecteur",
+          "suspicious": []
+        },
+        {
+          "role": "chanteur",
+          "suspicious": []
+        },
+        {
+          "role": "otaku",
+          "suspicious": []
+        }
+      ]
+    },
+    {
+      "id": 10,
+      "date": "23-05-2021",
+      "title": "Concours d'anecdotes vs Macron",
+      "location": "Palais de l'Élysée, Paris",
+      "summary": [
+        "Mcfly & Carlito",
+        "E.Macron",
+        "Concours d'anecdotes",
+        "Bonne ou mauvaise idée ?"
+      ],
+      "keywords": [
+        "blague",
+        "Dailymotion",
+        "caméra cachée",
+        "jogging",
+        "extension",
+        "bébé"
+      ],
+      "spyKeywords": [
+        "archive",
+        "Youtube",
+        "vlog",
+        "ceinture",
+        "ovale",
+        "intestin"
+      ],
+      "description": "Le 23 Mai 2021, la chaîne Youtube \"Mcfly & Carlito\" sortit leur vidéo CONCOURS D'ANECDOTES vs LE PRÉSIDENT DE LA RÉPUBLIQUE suite au défi lancé par le président de la République. Cette nouvelle a suscité de nombreuses interrogations. Est-ce un coup de com' ? Avait-il une réelle volonté d'imprégner les gestes de sécurité aux jeunes français ?",
+      "players": [
+        {
+          "role": "mcfly",
+          "suspicious": []
+        },
+        {
+          "role": "carlito",
+          "suspicious": []
+        },
+        {
+          "role": "jl mélenchon",
+          "suspicious": []
+        },
+        {
+          "role": "marine le pen",
+          "suspicious": []
+        },
+        {
+          "role": "cyril hanouna",
+          "suspicious": []
+        },
+        {
+          "role": "xari",
+          "suspicious": []
+        },
+        {
+          "role": "roi des rats",
+          "suspicious": []
+        },
+        {
+          "role": "j34n c4st3x",
+          "suspicious": []
         }
       ]
     }

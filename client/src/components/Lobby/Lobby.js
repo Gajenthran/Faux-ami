@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import RangeSlider from 'react-bootstrap-range-slider'
-// import BootstrapSwitchButton from 'bootstrap-switch-button-react'
-import { Fade } from 'react-bootstrap'
-import { Redirect } from 'react-router-dom'
+import { Link, Redirect } from 'react-router-dom'
 
 import socket from './../../config/socket'
+
+import 'rc-slider/assets/index.css';
 
 import './Lobby.css'
 import 'react-bootstrap-range-slider/dist/react-bootstrap-range-slider.css'
@@ -19,18 +19,12 @@ import 'react-bootstrap-range-slider/dist/react-bootstrap-range-slider.css'
  * @param {array} users - others users in the room
  */
 const Lobby = ({ user, users }) => {
-  const [hoverRules, setHoverRules] = useState(false)
-  const [hoverUsers, setHoverUsers] = useState(false)
-  const [nbPlayer, setNbPlayer] = useState(6)
-  const [nbCardsToDistribute, setNbCardsToDistribute] = useState(5)
-  const [nbCardsToShow, setNbCardsToShow] = useState(3)
-  const [countdown, setCountdown] = useState(2)
-  const [nbTurn, setNbTurn] = useState(1)
-  const [playerOptions, setPlayerOptions] = useState(false)
-  const [distributeOptions, setDistributeOptions] = useState(false)
-  const [showOptions, setShowOptions] = useState(false)
-  const [countdownOptions, setCountdownOptions] = useState(false)
-  const [turnOptions, setTurnOptions] = useState(false)
+  const [nbPlayer, setNbPlayer] = useState(users.length || 4)
+  const [nbKeywords, setNbKeywords] = useState(3)
+  const [countdown, setCountdown] = useState(45)
+  const [nbTurn, setNbTurn] = useState(2)
+  const [nbRound, setNbRound] = useState(2)
+  const [invitedMessage, setInvitedMessage] = useState(false)
 
   useEffect(() => {
     socket.on('lobby:create-response', ({ user }) => {
@@ -46,14 +40,18 @@ const Lobby = ({ user, users }) => {
    */
   const startGame = () => {
     socket.emit('game:start', { 
-      nbPlayer, nbCardsToDistribute, 
-      countdown, nbTurn, nbCardsToShow
+      nbPlayer, nbKeywords, 
+      countdown, nbTurn, nbRound
     })
   }
 
   const copyToClipboard = (e) => {
     navigator.clipboard.writeText(window.location.href)
     e.target.focus()
+    setInvitedMessage(true)
+    setTimeout(() => {
+      setInvitedMessage(false)
+    }, 2000);
   }
 
   /**
@@ -61,24 +59,16 @@ const Lobby = ({ user, users }) => {
    */
   const renderUsers = () => {
     return (
-      <div
-        onMouseEnter={() => setHoverUsers(true)}
-        onMouseLeave={() => setHoverUsers(false)}
-        className="lobby--container lobby-users-list"
-      >
-        <h3> JOUEURS</h3>
-        <Fade in={hoverUsers}>
-          <h5> ({users.length}) </h5>
-        </Fade>
-        <div className="lobby-users--list-row">
-          <div className="lobby-users--infos-list" key={socket.id}>
-            <div className="lobby-users--name">
-              <img src={user.img} alt="avatar" />
-              {user.name}
+      <div className="lobby-users-list">
+        <h3> JOUEURS ({users.length}) </h3>
+          <div className="lobby-users--list-row">
+            <div className="lobby-users--infos-list" key={socket.id}>
+              <div className="lobby-users--name">
+                <img src={user.img} alt="avatar" />
+                {user.name}
+              </div>
             </div>
-          </div>
-          {users.map(
-            (user) =>
+            {users.map((user) =>
               user.id !== socket.id && (
                 <div className="lobby-users--infos-list" key={user.id}>
                   <div className="lobby-users--name">
@@ -87,9 +77,9 @@ const Lobby = ({ user, users }) => {
                   </div>
                 </div>
               )
-          )}
+            )}
+          </div>
         </div>
-      </div>
     )
   }
 
@@ -98,94 +88,47 @@ const Lobby = ({ user, users }) => {
    */
   const renderOptions = () => {
     return (
-      <div
-        onMouseEnter={() => setHoverRules(true)}
-        onMouseLeave={() => setHoverRules(false)}
-        className="lobby--container lobby-users-options"
-      >
+      <div className="lobby-users-options">
         <h3> OPTIONS </h3>
-        <Fade in={hoverRules}>
-          <h5> DE JEU </h5>
-        </Fade>
         <div className="lobby-users-options-list">
-          <div
-            onMouseEnter={() => setPlayerOptions(true)}
-            onMouseLeave={() => setPlayerOptions(false)}
-          >
-            <h6> JOUEURS</h6>
-            <Fade in={playerOptions}>
-              <div className="lobby-users-options-desc">
-                Nombre de joueurs max. dans une partie
-              </div>
-            </Fade>
+          <div className="lobby-users-options-element">
+            <h6> JOUEURS max. dans une partie</h6>
             <RangeSlider
-              min={2}
+              min={4}
               max={6}
               value={nbPlayer}
               onChange={(e) => setNbPlayer(Number(e.target.value))}
             />
           </div>
-          <div
-            onMouseEnter={() => setDistributeOptions(true)}
-            onMouseLeave={() => setDistributeOptions(false)}
-          >
-            <h6> CARTES AU DÉPART </h6>
-            <Fade in={distributeOptions}>
-              <div className="lobby-users-options-desc">
-                Nombre de cartes à piocher au départ
-              </div>
-            </Fade>
+          <div className="lobby-users-options-element">
+            <h6> nombre de MOTS CLEFS </h6>
             <RangeSlider
-              min={1}
-              max={20}
-              value={nbCardsToDistribute}
-              onChange={(e) => setNbCardsToDistribute(Number(e.target.value))}
+              min={2}
+              max={6}
+              value={nbKeywords}
+              onChange={(e) => setNbKeywords(Number(e.target.value))}
             />
           </div>
-          <div
-            onMouseEnter={() => setCountdownOptions(true)}
-            onMouseLeave={() => setCountdownOptions(false)}
-          >
-            <h6> COMPTE À REBOURS </h6>
-            <Fade in={countdownOptions}>
-              <div className="lobby-users-options-desc">
-                Compte à rebours après chaque carte jouée (ex: "Nope")
-              </div>
-            </Fade>
+          <div className="lobby-users-options-element">
+            <h6> TEMPS DE PAROLE (en seconde) </h6>
             <RangeSlider
-              min={1}
-              max={5}
+              min={3}
+              max={300}
               value={countdown}
               onChange={(e) => setCountdown(Number(e.target.value))}
             />
           </div>
-          <div
-            onMouseEnter={() => setShowOptions(true)}
-            onMouseLeave={() => setShowOptions(false)}
-          >
-            <h6> VOIR L'AVENIR </h6>
-            <Fade in={showOptions}>
-              <div className="lobby-users-options-desc">
-                Nombre de cartes à voir avec "Voir l'avenir"
-              </div>
-            </Fade>
+          <div className="lobby-users-options-element">
+            <h6> nombre d'ENQUÊTES </h6>
             <RangeSlider
-              min={1}
-              max={10}
-              value={nbCardsToShow}
-              onChange={(e) => setNbCardsToShow(Number(e.target.value))}
+              min={2}
+              max={5}
+              value={nbRound}
+              onChange={(e) => setNbRound(Number(e.target.value))}
             />
           </div>
-          <div
-            onMouseEnter={() => setTurnOptions(true)}
-            onMouseLeave={() => setTurnOptions(false)}
-          >
-            <h6> TOURS </h6>
-            <Fade in={turnOptions}>
-              <div className="lobby-users-options-desc">
-                Nombre de tours à jouer avant de passer la main
-              </div>
-            </Fade>
+          <div className="lobby-users-options-element">
+            <h6> TOURS DE TABLE pour une enquête</h6>
             <RangeSlider
               min={1}
               max={3}
@@ -203,14 +146,21 @@ const Lobby = ({ user, users }) => {
       <div className="lobby-screen">
         {user ? (
           <div className="div-lobby">
-            <div className="div-lobby--row">
+            <Link to={'/'}>
+              <h3 className="lobby--title"> Faux-Ami </h3>
+            </Link>
+            <div className="lobby--container">
               {renderOptions()}
               {renderUsers()}
             </div>
 
             <div className="lobby-start-game">
               <button onClick={(e) => startGame(e)}> LANCER LA PARTIE </button>
-              <button onClick={(e) => copyToClipboard(e)}> INVITER </button>
+              <button 
+                className="lobby--invite-btn"
+                onClick={(e) => copyToClipboard(e)}> 
+                INVITER {invitedMessage && <span> copié </span>}
+              </button>
             </div>
           </div>
         ) : (

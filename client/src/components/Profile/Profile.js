@@ -13,9 +13,7 @@ import { userAvatar, NB_AVATARS } from './../Home'
  * There is also game rules.
  */
 const Profile = ({ location }) => {
-  const [name, setName] = useState('azerty')
-  const [hoverGame, setHoverGame] = useState(false)
-  const [hoverRules, setHoverRules] = useState(false)
+  const [name, setName] = useState('')
   const [avatarIndex, setAvatarIndex] = useState(0)
   const { room } = queryString.parse(location.search)
 
@@ -24,47 +22,35 @@ const Profile = ({ location }) => {
     if (name.length !== 0) socket.emit('lobby:join', { user, room })
   }
 
-  /**
-   * Render game layout to login.
-   */
-  const renderGame = () => {
+  const renderAvatar = () => {
     return (
-      <div
-        onMouseEnter={() => setHoverGame(true)}
-        onMouseLeave={() => setHoverGame(false)}
-        className="home--container div-home--row--game"
-      >
-        <h3> JOUER </h3>
-        <Fade in={hoverGame}>
-          <h5> UNE PARTIE </h5>
-        </Fade>
-        <div className="div-home--form">
-          <img
-            className="avatar-img"
-            src={userAvatar.avatars[avatarIndex]}
-            alt="avatar-img"
-          />
-          <img
-            className="avatar-left-arrow"
-            src={userAvatar.leftArrow}
-            alt="left-arrow-img"
-            onClick={() =>
-              setAvatarIndex(Math.abs((avatarIndex - 1) % NB_AVATARS))
-            }
-          />
-          <img
-            className="avatar-right-arrow"
-            src={userAvatar.rightArrow}
-            alt="right-arrow-img"
-            onClick={() => setAvatarIndex((avatarIndex + 1) % NB_AVATARS)}
-          />
-          <input
-            placeholder="Name"
-            className="joinInput"
-            type="text"
-            defaultValue={name}
-            onChange={(event) => setName(event.target.value)}
-          />
+      <div className="div-home--avatar">
+        <img
+          className="avatar-img"
+          src={userAvatar.avatars[avatarIndex]}
+          alt="avatar-img"
+        />
+        <img
+          className="avatar-left-arrow"
+          src={userAvatar.leftArrow}
+          alt="left-arrow-img"
+          onClick={() =>
+            setAvatarIndex(
+              avatarIndex - 1 < 0 ? NB_AVATARS - 1 : avatarIndex - 1
+            )
+          }
+        />
+        <img
+          className="avatar-right-arrow"
+          src={userAvatar.rightArrow}
+          alt="right-arrow-img"
+          onClick={() => setAvatarIndex((avatarIndex + 1) % NB_AVATARS)}
+        />
+        <input
+          placeholder="Name"
+          type="text"
+          onChange={(event) => setName(event.target.value)}
+        />
           <Link
             onClick={() => onJoinLobby()}
             to={name.length !== 0 ? `/game?room=${room}` : '/'}
@@ -74,53 +60,16 @@ const Profile = ({ location }) => {
               REJOINDRE LE SALON{' '}
             </button>
           </Link>
-        </div>
       </div>
     )
   }
 
-  /**
-   * Render game rules.
-   */
-  const renderRules = () => {
-    return (
-      <div
-        onMouseEnter={() => setHoverRules(true)}
-        onMouseLeave={() => setHoverRules(false)}
-        className="home--container div-home--row--rules"
-      >
-        <h3> RÈGLES </h3>
-        <Fade in={hoverRules}>
-          <h5> DU JEU </h5>
-        </Fade>
-        <div>
-          <div className="div-home--row--rules-desc">
-            1. Choisir un mot parmi la liste donnée <br />
-            <br />
-            2. Tentez de le faire deviner aux autres joueurs à travers les
-            concepts sur les icônes. 4 familles de concepts peuvent être
-            réalisées. Dans chacune d&apos;elle, nous aurons 1 concept principal
-            et 4 concepts secondaires. <br />
-            <br />
-            3. La distribution des points se fera en fonction de la rapidité à
-            laquelle les autres joueurs trouvent le mot. <br />
-            <br />
-          </div>
-        </div>
-      </div>
-    )
-  }
 
-  /**
-   * Render game credits.
-   */
-  const renderCredits = () => {
+  const renderFooter = () => {
     return (
-      <div className="home--container">
-        <h3> CRÉDITS </h3>
-        <div className="div-home--row--rules-desc">
-          Créé et développé par Gajenthran PANCHALINGAMOORTHY.
-        </div>
+      <div className="home--footer">
+        <p> Github □ </p>
+        <p> Gajenthran </p>
       </div>
     )
   }
@@ -129,14 +78,13 @@ const Profile = ({ location }) => {
     <>
       <div className="home-screen">
         <div className="div-home">
-          <div className="div-home--row">
-            {renderGame()}
-            {renderRules()}
-          </div>
-          <div className="div-home--row--credits-list">
-            {renderCredits()}
-            <div className="home--container"> </div>
-          </div>
+        <div className="home--container">
+          <Link to={'/'}>
+            <h3 className="home--title"> Faux-Ami </h3>
+          </Link>
+          {renderAvatar()}
+          {renderFooter()}
+        </div>
         </div>
       </div>
     </>

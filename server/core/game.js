@@ -64,7 +64,7 @@ class Game {
 
     this.round = 1
     this.turn = 1
-    // nbPlayer, nbTurn, nbKeywords, countdown, nbRound
+    // nbPlayer, nbTurn, nbKeywords, countdown, nbRound, nbCommonWords
     this.options = options
     this.countdown = null;
     this.timer = null;
@@ -89,6 +89,9 @@ class Game {
     const spyKeywords = new Array(this.options.nbKeywords).fill(null).map(
       (_, i) => this.article.spyKeywords[keywordsIndexes[i]]
     )
+    
+    for(let i = 0; i < this.options.nbCommonWords; i++)
+      spyKeywords[i] = keywords[i]
 
     const userIndexes = Array.from(Array(this.users.length), (_, index) => index)
     shuffleArray(userIndexes)
@@ -281,6 +284,9 @@ class Game {
       (_, i) => this.article.spyKeywords[keywordsIndexes[i]]
     )
 
+    for(let i = 0; i < this.options.nbCommonWords; i++)
+      spyKeywords[i] = keywords[i]
+      
     const userIndexes = Array.from(Array(this.users.length), (_, index) => index)
     shuffleArray(userIndexes)
 

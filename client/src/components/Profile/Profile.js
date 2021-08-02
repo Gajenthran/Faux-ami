@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
-import { Fade } from 'react-bootstrap'
 import queryString from 'query-string'
 
 import socket from './../../config/socket'

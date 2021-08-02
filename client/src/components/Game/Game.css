@@ -6,7 +6,9 @@ body {
   height: 100vh;
 }
 
-*:fullscreen, *:-webkit-full-screen, *:-moz-full-screen {
+*:fullscreen,
+*:-webkit-full-screen,
+*:-moz-full-screen {
   background-color: #d3ad7f;
 }
 
@@ -88,11 +90,10 @@ body {
   margin-bottom: -35px;
   transform: rotateZ(-95deg);
   transition: 0.5s;
-  ;
 }
 
 .cards-right:hover {
-  transform: rotateZ(-90deg) scale(1.5) translateY(-1rem)!important;
+  transform: rotateZ(-90deg) scale(1.5) translateY(-1rem) !important;
 }
 
 .cards-left:hover {
@@ -202,11 +203,11 @@ body {
   transform: scale(0.9);
 }
 
-.container-all-cards>div {
+.container-all-cards > div {
   padding: 20px;
 }
 
-.container-future-cards>div {
+.container-future-cards > div {
   padding: 20px;
 }
 
@@ -294,7 +295,7 @@ body {
   height: 100px;
   border-radius: 0 0 50% 50%;
   justify-content: center;
-  animation: "rotating 0.9s ease infinite"
+  animation: 'rotating 0.9s ease infinite';
 }
 
 .winner-container p {
@@ -318,7 +319,7 @@ body {
   background-color: rgb(216, 202, 184);
   color: black;
   transition: 500ms;
-  box-shadow: 10px 10px 0px rgba(0, 0, 0, .5);
+  box-shadow: 10px 10px 0px rgba(0, 0, 0, 0.5);
   font: small-caps bold 24px/1 sans-serif;
 }
 
@@ -332,9 +333,9 @@ body {
 }
 
 .winner-container button:active {
-  -webkit-transform: scale(.9);
-  transform: scale(.9);
-  box-shadow: 5px 5px 0px rgba(0, 0, 0, .5);
+  -webkit-transform: scale(0.9);
+  transform: scale(0.9);
+  box-shadow: 5px 5px 0px rgba(0, 0, 0, 0.5);
 }
 
 @keyframes bounce {
@@ -449,7 +450,8 @@ body {
   justify-content: space-between;
 }
 
-.keywords-users, .users-score {
+.keywords-users,
+.users-score {
   position: absolute;
   top: 240px;
   z-index: 2 !important;
@@ -472,8 +474,8 @@ body {
   cursor: pointer;
   transition: 250ms;
   transform: rotateZ(-3deg);
-  box-shadow: 2px 2px 0 rgba(0, 0, 0, .5);
-  animation: popup .5s linear;
+  box-shadow: 2px 2px 0 rgba(0, 0, 0, 0.5);
+  animation: popup 0.5s linear;
 }
 
 .vote-users {
@@ -487,7 +489,9 @@ body {
   padding-right: 20px;
 }
 
-.keywords-users p, .users-score p, .comment-users p {
+.keywords-users p,
+.users-score p,
+.comment-users p {
   width: 170px;
   text-align: center;
   padding: 5px;
@@ -515,15 +519,15 @@ body {
 
 .keywords-container p:active {
   transform: scale(0.8);
-  box-shadow: 0px 0px 0px rgba(0, 0, 0, .5);
+  box-shadow: 0px 0px 0px rgba(0, 0, 0, 0.5);
 }
 
 @keyframes scale-out {
   from {
-    transform: scale(1.0)
+    transform: scale(1);
   }
   to {
-    transform: scale(0)
+    transform: scale(0);
   }
 }
 
@@ -534,7 +538,7 @@ body {
   padding: 5px;
   margin: 0;
   background-color: rgb(216, 202, 184);
-  box-shadow: 5px 5px 0px rgba(0, 0, 0, .5);
+  box-shadow: 5px 5px 0px rgba(0, 0, 0, 0.5);
   cursor: pointer;
 }
 
@@ -691,7 +695,7 @@ body {
     transform: scale(1);
   }
   50% {
-    transform: scale(2.0);
+    transform: scale(2);
   }
   to {
     transform: scale(1);
@@ -731,7 +735,7 @@ body {
   padding: 5px;
   margin: 0;
   background-color: rgb(216, 202, 184);
-  box-shadow: 5px 5px 0px rgba(0, 0, 0, .5);
+  box-shadow: 5px 5px 0px rgba(0, 0, 0, 0.5);
   cursor: pointer;
   transform: rotateZ(-2deg);
   position: absolute;
@@ -747,7 +751,7 @@ body {
 
 .vote-button:active {
   transform: rotateZ(-2deg) scale(0.8);
-  box-shadow: 0px 0px 0px rgba(0, 0, 0, .5);
+  box-shadow: 0px 0px 0px rgba(0, 0, 0, 0.5);
 }
 
 .post-role {
@@ -810,7 +814,7 @@ body {
   padding: 10px;
   margin: 0;
   background-color: rgb(216, 202, 184);
-  box-shadow: 5px 5px 0px rgba(0, 0, 0, .5);
+  box-shadow: 5px 5px 0px rgba(0, 0, 0, 0.5);
   cursor: pointer;
   border: none;
   transform: rotateZ(-2deg);
@@ -823,7 +827,7 @@ body {
 .settings-post-it button:active {
   transform: scale(0.7);
   background-color: rgb(248, 232, 212);
-  box-shadow: 0px 0px 0px rgba(0, 0, 0, .5);
+  box-shadow: 0px 0px 0px rgba(0, 0, 0, 0.5);
 }
 
 .game-turn {

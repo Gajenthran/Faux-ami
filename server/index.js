@@ -46,7 +46,6 @@ io.on('connection', (socket) => {
   listen(io, socket, 'game:confirm-vote', fauxami.confirmVote.bind(fauxami))
   listen(io, socket, 'game:continue', fauxami.newRound.bind(fauxami))
   listen(io, socket, 'game:start-round', fauxami.startRound.bind(fauxami))
-  listen(io, socket, 'game:hide-card', fauxami.hideCard.bind(fauxami))
   listen(io, socket, 'game:update', fauxami.updateGame.bind(fauxami))
   listen(io, socket, 'game:restart', fauxami.restartGame.bind(fauxami))
   listen(io, socket, 'disconnect', fauxami.removeUser.bind(fauxami))

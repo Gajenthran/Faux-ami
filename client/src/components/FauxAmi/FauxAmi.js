@@ -6,7 +6,6 @@ import socket from '../../config/socket'
 import Lobby from '../Lobby/Lobby'
 import Profile from '../Profile/Profile'
 import Game from '../Game/Game'
-import Navbar from '../Navbar/Navbar'
 
 const PROFILE_STATE = 0
 const LOBBYSTATE = 1
@@ -26,39 +25,38 @@ const FauxAmi = ({ location }) => {
     // Firefox
     if (document.mozFullScreenEnabled) {
       if (!document.mozFullScreenElement) {
-        elem.mozRequestFullScreen();
+        elem.mozRequestFullScreen()
       } else {
-        document.mozCancelFullScreen();
+        document.mozCancelFullScreen()
       }
     }
 
     if (document.fullscreenElement) {
       if (!document.fullscreenElement) {
-        elem.requestFullscreen();
+        elem.requestFullscreen()
       } else {
-        document.exitFullscreen();
+        document.exitFullscreen()
       }
     }
 
     // Safari
     if (document.webkitFullscreenEnabled) {
       if (!document.webkitFullscreenElement) {
-        elem.webkitRequestFullscreen();
+        elem.webkitRequestFullscreen()
       } else {
-        document.webkitExitFullscreen();
+        document.webkitExitFullscreen()
       }
     }
 
     // Edge
     if (document.msFullscreenEnabled) {
       if (!document.msFullscreenElement) {
-        elem.msRequestFullscreen();
+        elem.msRequestFullscreen()
       } else {
-        document.msExitFullscreen();
+        document.msExitFullscreen()
       }
     }
   }
-
 
   useEffect(() => {
     socket.on('lobby:create-response', ({ user }) => {
@@ -69,14 +67,11 @@ const FauxAmi = ({ location }) => {
   })
 
   useEffect(() => {
-    socket.on(
-      'lobby:join-response-user',
-      ({ user, users }) => {
-        setUser(user)
-        setUsers(users)
-        setPlayState(LOBBYSTATE)
-      }
-    )
+    socket.on('lobby:join-response-user', ({ user, users }) => {
+      setUser(user)
+      setUsers(users)
+      setPlayState(LOBBYSTATE)
+    })
   }, [])
 
   useEffect(() => {
@@ -136,7 +131,7 @@ const FauxAmi = ({ location }) => {
   useEffect(() => {
     socket.on('game:disconnect', ({ users, gameState }) => {
       setUsers(users)
-      if(gameState)
+      if (gameState)
         setGameState((prevGameState) => ({ ...prevGameState, ...gameState }))
     })
   }, [])
@@ -145,18 +140,6 @@ const FauxAmi = ({ location }) => {
     socket.on('game:end-game', ({ users }) => {
       setUsers(users)
       setUser(users.find((user) => user.id === socket.id))
-    })
-  }, [])
-  
-
-  useEffect(() => {
-    socket.on('game:choose-card-response', ({ users, gameState }) => {
-      setUsers(users)
-      setUser(users.find((user) => user.id === socket.id))
-      setGameState((prevGameState) => ({ ...prevGameState, ...gameState }))
-      setTimeout(() => {
-        socket.emit("game:update")        
-      }, 1000);
     })
   }, [])
 

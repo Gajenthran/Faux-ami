@@ -5,8 +5,6 @@ import socket from './../../config/socket'
 
 import './Home.css'
 
-import Navbar from './../Navbar/Navbar'
-
 import { userAvatar, NB_AVATARS } from './'
 
 const KEY_LENGTH = 8

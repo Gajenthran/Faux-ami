@@ -35,9 +35,9 @@ class FauxAmi {
     if (this.game.get() !== undefined)
       return { error: 'Cannot create the game: the room is already in game.' }
 
-    if(users.length < MIN_NB_PLAYERS || users.length > MAX_NB_PLAYERS) {
-      console.log("Error: Inadequate number of players.")
-      return {error: "Error: Inadequate number of players." }
+    if (users.length < MIN_NB_PLAYERS || users.length > MAX_NB_PLAYERS) {
+      console.log('Error: Inadequate number of players.')
+      return { error: 'Error: Inadequate number of players.' }
     }
 
     this.game.set(user.room, new Game(users, options, socket.id))
@@ -51,29 +51,6 @@ class FauxAmi {
       gameState,
       options,
     })
-
-    /* game.resetCountdown()
-    game.clearCountdown()
-    const timer = game.getTimer()
-    io.to(user.room).emit('game:countdown-tick', game.getTimer())
-    game.setCountdown(() => {
-      io.to(user.room).emit('game:countdown-tick', game.getTimer())
-      const endRound = game.update()
-
-      if(endRound) {
-        console.log("end-round")
-        game.clearCountdown()
-        io.to(user.room).emit('game:end-round', {
-          users: game.getUsers(),
-          gameState: game.getGameState(),
-        });
-      } else {
-        io.to(user.room).emit('game:end-turn', {
-          users: game.getUsers(),
-          gameState: game.getGameState(),
-        });
-      }
-    }, timer.end - timer.start) */
 
     console.log(`FauxAmi. Create game: ${user.name}`)
   }
@@ -99,23 +76,22 @@ class FauxAmi {
       io.to(user.room).emit('game:countdown-tick', game.getTimer())
       const endRound = game.update()
 
-      if(endRound) {
-        console.log("end-round")
+      if (endRound) {
+        console.log('end-round')
         game.clearCountdown()
         io.to(user.room).emit('game:end-round', {
           users: game.getUsers(),
           gameState: game.getGameState(),
-        });
+        })
       } else {
         io.to(user.room).emit('game:end-turn', {
           users: game.getUsers(),
           gameState: game.getGameState(),
-        });
+        })
       }
     }, timer.end - timer.start)
 
-    console.log(`FauxAmi. Create game: ${user.name}`) 
-
+    console.log(`FauxAmi. Create game: ${user.name}`)
   }
 
   newRound(io, socket) {
@@ -130,43 +106,21 @@ class FauxAmi {
 
     if (!game) return { error: "Game don't exist." }
 
-    console.log("new round")
+    console.log('new round')
 
     const endGame = !game.newRound()
-    if(endGame) {
-      console.log("end game")
+    if (endGame) {
+      console.log('end game')
       io.to(user.room).emit('game:end-game', {
         users: game.getUsers(),
         gameState: game.getGameState(),
-      });
+      })
     } else {
-      console.log("new round")
+      console.log('new round')
       io.to(user.room).emit('game:new-round', {
         users: game.getUsers(),
         gameState: game.getGameState(),
-      });
-
-      /* game.resetCountdown()
-      game.clearCountdown()
-      const timer = game.getTimer()
-      io.to(user.room).emit('game:countdown-tick', game.getTimer())
-      game.setCountdown(() => {
-        io.to(user.room).emit('game:countdown-tick', game.getTimer())
-        const endRound = game.update()
-
-        if(endRound) {
-          game.clearCountdown()
-          io.to(user.room).emit('game:end-round', {
-            users: game.getUsers(),
-            gameState: game.getGameState(),
-          });
-        } else {
-          io.to(user.room).emit('game:end-turn', {
-            users: game.getUsers(),
-            gameState: game.getGameState(),
-          });
-        }
-      }, timer.end - timer.start) */
+      })
     }
   }
 
@@ -205,13 +159,13 @@ class FauxAmi {
     const game = this.game.get(room)
 
     if (game) {
-      return { error: "The game has already started." }
+      return { error: 'The game has already started.' }
     }
 
     socket.join(user.room)
-    io.to(user.room).emit('lobby:create-response', { user })
-
-    console.log(`FauxAmi. Create lobby: ${user.name}`)
+    setTimeout(() => {
+      io.to(user.room).emit('lobby:create-response', { user })
+    }, 300)
   }
 
   checkLobby(io, socket, { room }) {
@@ -221,8 +175,7 @@ class FauxAmi {
     const roomExist = io.sockets.adapter.rooms[room] || false
     let userExist = false
 
-    if (roomExist) 
-      userExist = io.sockets.adapter.rooms[room].sockets[socket.id]
+    if (roomExist) userExist = io.sockets.adapter.rooms[room].sockets[socket.id]
 
     io.to(socket.id).emit('lobby:check-response', {
       error,
@@ -240,16 +193,16 @@ class FauxAmi {
     const game = this.game.get(room)
 
     if (game) {
-      return { error: "The game has already started." }
+      return { error: 'The game has already started.' }
     }
 
     io.to(socket.id).emit('lobby:join-response-user', {
       user,
-      users: getUsersInRoom(this.users, user.room)
+      users: getUsersInRoom(this.users, user.room),
     })
 
     socket.broadcast.to(user.room).emit('lobby:join-response-all', {
-      users: this.users
+      users: getUsersInRoom(this.users, user.room),
     })
   }
 
@@ -271,14 +224,14 @@ class FauxAmi {
     const { state, newRound } = game.update()
 
     io.to(user.room).emit(`game:update-response`, {
-      state, 
-      newRound, 
-      users: game.getUsers(), 
-      gameState: game.getGameState() 
+      state,
+      newRound,
+      users: game.getUsers(),
+      gameState: game.getGameState(),
     })
   }
 
-  votePlayer(io, socket, {userId}) {
+  votePlayer(io, socket, { userId }) {
     const index = getUserIndex(this.users, socket.id)
     const user = this.users[index]
 
@@ -315,69 +268,15 @@ class FauxAmi {
 
     const end = game.confirmVote(socket.id)
 
-    if(end) {
+    if (end) {
       game.endVote()
-      io.to(user.room).emit(`game:end-vote`, { users: game.getUsers() })  
+      io.to(user.room).emit(`game:end-vote`, { users: game.getUsers() })
     } else {
-      io.to(user.room).emit(`game:confirm-vote-response`, { 
-        users: game.getUsers() 
+      io.to(user.room).emit(`game:confirm-vote-response`, {
+        users: game.getUsers(),
       })
     }
   }
-
-  hideCard(io, socket) {
-    const index = getUserIndex(this.users, socket.id)
-    const user = this.users[index]
-
-    if (!user) {
-      return { error: "User don't exist." }
-    }
-
-    const game = this.game.get(user.room)
-
-    if (!game || game === null) {
-      console.log('Game is not existing.')
-      return { error: 'Game is not existing.' }
-    }
-
-    game.hideCard()
-
-    io.to(user.room).emit(`game:hide-card-response`)
-  }
-
-  chooseCard(io, socket, { id, cardIndex }) {
-    if(typeof cardIndex !== "number") {
-      console.log("Error: cardIndex has inapropriate type.")
-      return { msg: "Error: cardIndex has inapropriate type." }
-    }
-
-    const index = getUserIndex(this.users, socket.id)
-    const user = this.users[index]
-
-    if (!user) {
-      return { error: "User don't exist." }
-    } /* else {
-      if (user.turn) {
-        console.log("You can't two times in the same round.")
-        return { error: "You can't two times in the same round." }
-      }
-    } */
-
-    const game = this.game.get(user.room)
-
-    if (!game || game === null) {
-      console.log('Game is not existing.')
-      return { error: 'Game is not existing.' }
-    }
-
-    game.chooseCard(id, cardIndex)
-
-    io.to(user.room).emit(`game:choose-card-response`, { 
-      users: game.getUsers(), 
-      gameState: game.getGameState() 
-    })
-  }
-
 
   /**
    * Remove user from the lobby or the game.
@@ -385,7 +284,7 @@ class FauxAmi {
    * @param {object} io - io
    * @param {object} socket - socket io
    */
-   removeUser(io, socket) {
+  removeUser(io, socket) {
     const index = this.users.findIndex((user) => user.id === socket.id)
 
     const user = this.users[index]
@@ -394,7 +293,7 @@ class FauxAmi {
       const room = user.room
       const game = this.game.get(room)
       if (game) {
-        if(game.disconnect(user.id)) {
+        if (game.disconnect(user.id)) {
           this.game.delete(room)
           return
         }
@@ -402,7 +301,7 @@ class FauxAmi {
         this.users.splice(index, 1)
         io.to(user.room).emit('game:disconnect', {
           users: getUsersInRoom(game.getUsers(), user.room),
-          gameState: game.getGameState()
+          gameState: game.getGameState(),
         })
       } else {
         this.users.splice(index, 1)

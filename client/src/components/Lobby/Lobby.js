@@ -4,10 +4,9 @@ import { Link, Redirect } from 'react-router-dom'
 
 import socket from './../../config/socket'
 
-import 'rc-slider/assets/index.css';
+import 'rc-slider/assets/index.css'
 
 import './Lobby.css'
-import 'react-bootstrap-range-slider/dist/react-bootstrap-range-slider.css'
 
 /**
  * Lobby component to manage the game options and
@@ -19,16 +18,17 @@ import 'react-bootstrap-range-slider/dist/react-bootstrap-range-slider.css'
  * @param {array} users - others users in the room
  */
 const Lobby = ({ user, users }) => {
-  const [nbPlayer, setNbPlayer] = useState(users.length || 4)
+  const [nbPlayer, setNbPlayer] = useState(users.length || 4)
   const [nbKeywords, setNbKeywords] = useState(3)
   const [countdown, setCountdown] = useState(45)
   const [nbTurn, setNbTurn] = useState(2)
   const [nbRound, setNbRound] = useState(2)
   const [invitedMessage, setInvitedMessage] = useState(false)
+  const [nbCommonWords, setNbCommonWords] = useState(0)
 
   useEffect(() => {
     socket.on('lobby:create-response', ({ user }) => {
-      if (user === undefined || !(user.roomId || user.name)) 
+      if (user === undefined || !(user.roomId || user.name))
         return <Redirect to="/" />
     })
   })
@@ -39,9 +39,13 @@ const Lobby = ({ user, users }) => {
    * @param {object} event - event
    */
   const startGame = () => {
-    socket.emit('game:start', { 
-      nbPlayer, nbKeywords, 
-      countdown, nbTurn, nbRound
+    socket.emit('game:start', {
+      nbPlayer,
+      nbKeywords,
+      nbCommonWords,
+      countdown,
+      nbTurn,
+      nbRound,
     })
   }
 
@@ -51,7 +55,7 @@ const Lobby = ({ user, users }) => {
     setInvitedMessage(true)
     setTimeout(() => {
       setInvitedMessage(false)
-    }, 2000);
+    }, 2000)
   }
 
   /**
@@ -61,14 +65,15 @@ const Lobby = ({ user, users }) => {
     return (
       <div className="lobby-users-list">
         <h3> JOUEURS ({users.length}) </h3>
-          <div className="lobby-users--list-row">
-            <div className="lobby-users--infos-list" key={socket.id}>
-              <div className="lobby-users--name">
-                <img src={user.img} alt="avatar" />
-                {user.name}
-              </div>
+        <div className="lobby-users--list-row">
+          <div className="lobby-users--infos-list" key={socket.id}>
+            <div className="lobby-users--name">
+              <img src={user.img} alt="avatar" />
+              {user.name}
             </div>
-            {users.map((user) =>
+          </div>
+          {users.map(
+            (user) =>
               user.id !== socket.id && (
                 <div className="lobby-users--infos-list" key={user.id}>
                   <div className="lobby-users--name">
@@ -77,9 +82,9 @@ const Lobby = ({ user, users }) => {
                   </div>
                 </div>
               )
-            )}
-          </div>
+          )}
         </div>
+      </div>
     )
   }
 
@@ -107,6 +112,19 @@ const Lobby = ({ user, users }) => {
               max={6}
               value={nbKeywords}
               onChange={(e) => setNbKeywords(Number(e.target.value))}
+            />
+          </div>
+          <div className="lobby-users-options-element">
+            <h6> mots en COMMUN </h6>
+            <RangeSlider
+              min={0}
+              max={5}
+              value={nbCommonWords}
+              onChange={(e) => {
+                const nbWords = Number(e.target.value)
+                if (nbWords >= nbKeywords) setNbKeywords(nbWords + 1)
+                setNbCommonWords(Number(e.target.value))
+              }}
             />
           </div>
           <div className="lobby-users-options-element">
@@ -156,9 +174,10 @@ const Lobby = ({ user, users }) => {
 
             <div className="lobby-start-game">
               <button onClick={(e) => startGame(e)}> LANCER LA PARTIE </button>
-              <button 
+              <button
                 className="lobby--invite-btn"
-                onClick={(e) => copyToClipboard(e)}> 
+                onClick={(e) => copyToClipboard(e)}
+              >
                 INVITER {invitedMessage && <span> copié </span>}
               </button>
             </div>

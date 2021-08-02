@@ -549,14 +549,14 @@
         "déchirure",
         "coup droit"
       ],
-      "description": "Roland-Garros, Dalna en a fait sa maison depuis plusieurs années. Celui-ci a même été accusé de tricherie ces dernières semaines suite à ses récentes performances exceptionnelles. Complots ou haines ? Cette affaire a pris une telle ampleur que l'intéressé a reçu 7 balles de 9mm dans la tête. Tentez de retrouver le coupable grâce aux différents témoignages récoltés pour venger les cicatrices du grand Dalna.",
+      "description": "Roland-Garros, Nadal en a fait sa maison depuis plusieurs années. Celui-ci a même été accusé de tricherie ces dernières semaines suite à ses récentes performances exceptionnelles. Complots ou haines ? Cette affaire a pris une telle ampleur que l'intéressé a reçu 7 balles de 9mm dans la tête. Tentez de retrouver le coupable grâce aux différents témoignages récoltés pour venger les cicatrices du grand Nadal.",
       "players": [
         {
           "role": "entraîneur",
           "suspicious": []
         },
         {
-          "role": "dérerfé",
+          "role": "federer",
           "suspicious": []
         },
         {
@@ -770,6 +770,384 @@
         },
         {
           "role": "j34n c4st3x",
+          "suspicious": []
+        }
+      ]
+    },
+    {
+      "id": 11,
+      "date": "29-05-2021",
+      "title": "Chelsea et la LdC 2021",
+      "location": "Porto, Portugal",
+      "summary": [
+        "Chelsea",
+        "Ligue des Champions 2021",
+        "back-to-back ?",
+        "Thomas Tuchel"
+      ],
+      "keywords": [
+        "prestige",
+        "chétif",
+        "tunnel",
+        "cuisse",
+        "excécrable",
+        "composition"
+      ],
+      "spyKeywords": [
+        "fierté",
+        "tendre",
+        "écusson",
+        "talon",
+        "piston",
+        "mouvement"
+      ],
+      "description": "6 mois ! Il a fallu 6 mois pour Thomas Tuchel, l'ex entraîneur du PSG, pour venir métamorphoser cette équipe de Chelsea, qui avait du mal à se trouver une identié avec ses nouvelles recrues. Une finale de FA Cup, une 4ème place, mais surtout... une finale de C1 remportée haut la main face à une grande équipe de Manchester City dont tout le monde voyait gagnant avant l'heure. Tuchel a conquis les blues. Mais peut-il en faire autant pour la prochaine édition de la LdC ?",
+      "players": [
+        {
+          "role": "lewandowski",
+          "suspicious": []
+        },
+        {
+          "role": "kante",
+          "suspicious": []
+        },
+        {
+          "role": "mahrez",
+          "suspicious": []
+        },
+        {
+          "role": "giroud",
+          "suspicious": []
+        },
+        {
+          "role": "guardiola",
+          "suspicious": []
+        },
+        {
+          "role": "henry",
+          "suspicious": []
+        },
+        {
+          "role": "mourinho",
+          "suspicious": []
+        },
+        {
+          "role": "ronaldo",
+          "suspicious": []
+        }
+      ]
+    },
+    {
+      "id": 12,
+      "date": "07-04-2020",
+      "title": "Squeezie est-il un pillier ?",
+      "location": "Twitch, France",
+      "summary": [
+        "Twitch",
+        "Squeezie",
+        "Tierlist",
+        "Polémique"
+      ],
+      "keywords": [
+        "prestige",
+        "chétif",
+        "tunnel",
+        "cuisse",
+        "excécrable",
+        "composition"
+      ],
+      "spyKeywords": [
+        "fierté",
+        "tendre",
+        "écusson",
+        "talon",
+        "piston",
+        "mouvement"
+      ],
+      "description": "Lors de son live du 6 avril, Doigby a décidé de \"porter ses cou*lles\" et donner son avis \"sur le stream game\". Une initiative qui a semé la discorde sur Twitter où les internautes et les streamers ont avalisé ou contesté certains choix, notamment celui de Squeezie. Jugée selon lui comme un pillier du Twitch français, il s'est attiré la foudre des twittos. Selon vous, Squeezie est-il un pillier de Twitch ?",
+      "players": [
+        {
+          "role": "gotaga",
+          "suspicious": []
+        },
+        {
+          "role": "sardoche",
+          "suspicious": []
+        },
+        {
+          "role": "kameto",
+          "suspicious": []
+        },
+        {
+          "role": "domingo",
+          "suspicious": []
+        },
+        {
+          "role": "zerator",
+          "suspicious": []
+        },
+        {
+          "role": "jiraya",
+          "suspicious": []
+        },
+        {
+          "role": "etoiles",
+          "suspicious": []
+        },
+        {
+          "role": "skyyart",
+          "suspicious": []
+        }
+      ]
+    },
+    {
+      "id": 13,
+      "date": "07-04-2020",
+      "title": "Spider-man vs Batman",
+      "location": "Gotham, Etats-Unis",
+      "summary": [
+        "Spider-man version Stark",
+        "Batman",
+        "Araignée vs chauve-souris",
+        "lance-toiles vs batarang"
+      ],
+      "keywords": [
+        "nettoyer",
+        "parker",
+        "robot",
+        "voler",
+        "sonic",
+        "aveugle"
+      ],
+      "spyKeywords": [
+        "lumière",
+        "riche",
+        "caméraman",
+        "voiture",
+        "flash",
+        "arrestation"
+      ],
+      "description": "Le combat entre une araignée et une chauve-souris, c'est ce qui peut faire saliver les spectateurs. Le spider-man de Tony Stark peut-il vaincre le très expérimenté Batman de Bruce Wayne accompagné de son majordome Alfred Pennyworth ? Les films Civil War, Justice League peuvent vous donner un aperçu des aptitudes et des faiblesses de chacun.",
+      "players": [
+        {
+          "role": "superman",
+          "suspicious": []
+        },
+        {
+          "role": "tony stark",
+          "suspicious": []
+        },
+        {
+          "role": "alfred penny",
+          "suspicious": []
+        },
+        {
+          "role": "ant-man",
+          "suspicious": []
+        },
+        {
+          "role": "allocine",
+          "suspicious": []
+        },
+        {
+          "role": "snyder",
+          "suspicious": []
+        },
+        {
+          "role": "hulk",
+          "suspicious": []
+        },
+        {
+          "role": "whedon",
+          "suspicious": []
+        }
+      ]
+    },
+    {
+      "id": 14,
+      "date": "20-05-2017",
+      "title": "MANE vs Kcorp. Revanche ?",
+      "location": "Tour Eiffel, Paris",
+      "summary": [
+        "MANE",
+        "Kcorp",
+        "FIFA: club pro",
+        "déculottée de la kcorp"
+      ],
+      "keywords": [
+        "pnl",
+        "silmi",
+        "empire",
+        "pactole",
+        "radio",
+        "arthrose"
+      ],
+      "spyKeywords": [
+        "balle",
+        "masterkill",
+        "gratte-ciel",
+        "tiquet",
+        "twitch",
+        "talon"
+      ],
+      "description": "Le soleil éclaicissait le toit de la Tour Eiffel pour le main event du 20 mai 2017. Celle-ci opposa les MANE de Gotaga face au la Kcorp de Kameto. Malheureusement pour les hommes de Kamel Kebir, le duel s'était soldé par une défaite des siens. Trois ans plus tard, la Kcorp a réussi à se refaire une santé mais pour autant, sera-t-il capable de vaincre l'équipe de Gotaga, plus soudé que jamais et notamment porté par un Brawks phénoménal.",
+      "players": [
+        {
+          "role": "brawks",
+          "suspicious": []
+        },
+        {
+          "role": "bibi",
+          "suspicious": []
+        },
+        {
+          "role": "doigby",
+          "suspicious": []
+        },
+        {
+          "role": "sabattier",
+          "suspicious": []
+        },
+        {
+          "role": "domingo",
+          "suspicious": []
+        },
+        {
+          "role": "wiloo",
+          "suspicious": []
+        },
+        {
+          "role": "prime",
+          "suspicious": []
+        },
+        {
+          "role": "henry",
+          "suspicious": []
+        }
+      ]
+    },
+    {
+      "id": 15,
+      "date": "17-06-2021",
+      "title": "Discuter, est-ce renoncer à la violence ?",
+      "location": "Métropole française",
+      "summary": [
+        "discuter",
+        "problème",
+        "violence",
+        "philosophie"
+      ],
+      "keywords": [
+        "differends",
+        "violence",
+        "domination",
+        "Socrate",
+        "Madara",
+        "polémique"
+      ],
+      "spyKeywords": [
+        "actes",
+        "Gandhi",
+        "pouvoir",
+        "Platon",
+        "paroles",
+        "physique"
+      ],
+      "description": "Le sujet du bac de philo de 2021 est tombé. Discuter, est-ce renoncer à la violence ? Vous avez 4h.",
+      "players": [
+        {
+          "role": "sardoche",
+          "suspicious": []
+        },
+        {
+          "role": "billy",
+          "suspicious": []
+        },
+        {
+          "role": "pvnova",
+          "suspicious": []
+        },
+        {
+          "role": "colmanlegrand",
+          "suspicious": []
+        },
+        {
+          "role": "amine",
+          "suspicious": []
+        },
+        {
+          "role": "lesbonsprofs",
+          "suspicious": []
+        },
+        {
+          "role": "yassencore",
+          "suspicious": []
+        },
+        {
+          "role": "bouteflikov",
+          "suspicious": []
+        }
+      ]
+    },
+    {
+      "id": 16,
+      "date": "19-06-2010",
+      "title": "La taupe de Knysna",
+      "location": "Knysna, Afrique du Sud",
+      "summary": [
+        "Anelka",
+        "Raymond Domenech",
+        "Coupe du monde 2010",
+        "Insultes"
+      ],
+      "keywords": [
+        "abomination",
+        "Menes",
+        "intervalle",
+        "nerf",
+        "pyramide",
+        "Berlin"
+      ],
+      "spyKeywords": [
+        "contorsion",
+        "Benzema",
+        "défense",
+        "sang-froid",
+        "obélisque",
+        "Paris"
+      ],
+      "description": "Le 19 juin 2010, le quotidien sportif l'Equipe publiait le contenu d'un violent accrochage entre Anelka et Raymond Domenech durant France-Mexique de la CdM 2010. \"Va te faire enculer sale fils de pute\". Une phrase choc, violente, qui a fait couler beaucoup d'encre, amenant l’exclusion de Nicolas Anelka. Suite à cet incident, le capitaine Evra soupçonne donc la présence d'une taupe dans l'EdF. Votre mission sera donc de débusquer cette taupe, qu'Evra n'a même pas réussi à trouver en 10 ans.",
+      "players": [
+        {
+          "role": "latour",
+          "suspicious": []
+        },
+        {
+          "role": "domenech",
+          "suspicious": []
+        },
+        {
+          "role": "evra",
+          "suspicious": []
+        },
+        {
+          "role": "anelka",
+          "suspicious": []
+        },
+        {
+          "role": "gims",
+          "suspicious": []
+        },
+        {
+          "role": "bachelot",
+          "suspicious": []
+        },
+        {
+          "role": "ribery",
+          "suspicious": []
+        },
+        {
+          "role": "deschamps",
           "suspicious": []
         }
       ]

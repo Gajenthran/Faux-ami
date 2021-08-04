@@ -17,14 +17,6 @@ class FauxAmi {
     this.game = new Map()
   }
 
-  /**
-   * Launch the game, by getting users in the room,
-   * initialize game state, and game options from the lobby.
-   *
-   * @param {object} io - io
-   * @param {object} socket - socket io
-   * @param {object} options - game options
-   */
   startGame(io, socket, options) {
     const user = getUser(this.users, socket.id)
 
@@ -36,7 +28,8 @@ class FauxAmi {
       return { error: 'Cannot create the game: the room is already in game.' }
 
     if (users.length < MIN_NB_PLAYERS || users.length > MAX_NB_PLAYERS) {
-      console.log('Error: Inadequate number of players.')
+      io.to(user.room).emit('game:start-game-response', { canStart: false })
+      console.warn('Error: Inadequate number of players.')
       return { error: 'Error: Inadequate number of players.' }
     }
 
@@ -51,8 +44,6 @@ class FauxAmi {
       gameState,
       options,
     })
-
-    console.log(`FauxAmi. Create game: ${user.name}`)
   }
 
   startRound(io, socket) {
@@ -77,7 +68,6 @@ class FauxAmi {
       const endRound = game.update()
 
       if (endRound) {
-        console.log('end-round')
         game.clearCountdown()
         io.to(user.room).emit('game:end-round', {
           users: game.getUsers(),
@@ -90,8 +80,58 @@ class FauxAmi {
         })
       }
     }, timer.end - timer.start)
+  }
 
-    console.log(`FauxAmi. Create game: ${user.name}`)
+  skipTurn(io, socket) {
+    const user = getUser(this.users, socket.id)
+
+    if (!user) return { error: `Cannot connect with user.` }
+
+    if (this.game.get() !== undefined)
+      return { error: 'Cannot create the game: the room is already in game.' }
+
+    const game = this.game.get(user.room)
+
+    if (!game) return { error: "Game don't exist." }
+
+    game.resetCountdown()
+    game.clearCountdown()
+    io.to(user.room).emit('game:countdown-tick', game.getTimer())
+    const endRound = game.update()
+    if (endRound) {
+      game.clearCountdown()
+      io.to(user.room).emit('game:end-round', {
+        users: game.getUsers(),
+        gameState: game.getGameState(),
+      })
+    } else {
+      io.to(user.room).emit('game:end-turn', {
+        users: game.getUsers(),
+        gameState: game.getGameState(),
+      })
+    }
+
+    if (!endRound) {
+      const timer = game.getTimer()
+      io.to(user.room).emit('game:countdown-tick', game.getTimer())
+      game.setCountdown(() => {
+        io.to(user.room).emit('game:countdown-tick', game.getTimer())
+        const endRound = game.update()
+
+        if (endRound) {
+          game.clearCountdown()
+          io.to(user.room).emit('game:end-round', {
+            users: game.getUsers(),
+            gameState: game.getGameState(),
+          })
+        } else {
+          io.to(user.room).emit('game:end-turn', {
+            users: game.getUsers(),
+            gameState: game.getGameState(),
+          })
+        }
+      }, timer.end - timer.start)
+    }
   }
 
   newRound(io, socket) {
@@ -106,17 +146,13 @@ class FauxAmi {
 
     if (!game) return { error: "Game don't exist." }
 
-    console.log('new round')
-
     const endGame = !game.newRound()
     if (endGame) {
-      console.log('end game')
       io.to(user.room).emit('game:end-game', {
         users: game.getUsers(),
         gameState: game.getGameState(),
       })
     } else {
-      console.log('new round')
       io.to(user.room).emit('game:new-round', {
         users: game.getUsers(),
         gameState: game.getGameState(),
@@ -124,14 +160,6 @@ class FauxAmi {
     }
   }
 
-  /**
-   * Launch the game, by getting users in the room and
-   * initialize game state.
-   *
-   * @param {object} io - io
-   * @param {object} socket - socket io
-   * @param {object} options - game options
-   */
   restartGame(io, socket) {
     const user = getUser(this.users, socket.id)
     if (!user) return { error: `Cannot connect with user.` }
@@ -145,10 +173,12 @@ class FauxAmi {
 
   createLobby(io, socket, { user, room }) {
     if (!(user.name || room)) {
+      console.warn('Username and room are required.')
       return { error: 'Username and room are required.' }
     }
 
     if (hasUser(this.users, user.name, room)) {
+      console.warn('Username is taken.')
       return { error: 'Username is taken.' }
     }
 
@@ -159,12 +189,18 @@ class FauxAmi {
     const game = this.game.get(room)
 
     if (game) {
+      console.warn('The game has already started.')
       return { error: 'The game has already started.' }
     }
 
     socket.join(user.room)
     setTimeout(() => {
-      io.to(user.room).emit('lobby:create-response', { user })
+      io.to(user.room).emit('lobby:create-response', {
+        user,
+        articles: Game.ARTICLES_.map((article) => {
+          return { id: article.id, title: article.title, checked: true }
+        }),
+      })
     }, 300)
   }
 
@@ -196,13 +232,19 @@ class FauxAmi {
       return { error: 'The game has already started.' }
     }
 
+    const articles = Game.ARTICLES_.map((article) => {
+      return { id: article.id, title: article.title, checked: true }
+    })
+
     io.to(socket.id).emit('lobby:join-response-user', {
       user,
       users: getUsersInRoom(this.users, user.room),
+      articles,
     })
 
     socket.broadcast.to(user.room).emit('lobby:join-response-all', {
       users: getUsersInRoom(this.users, user.room),
+      articles,
     })
   }
 
@@ -217,7 +259,7 @@ class FauxAmi {
     const game = this.game.get(user.room)
 
     if (!game || game === null) {
-      console.log('Game is not existing.')
+      console.warn('Game is not existing.')
       return { error: 'Game is not existing.' }
     }
 
@@ -242,7 +284,7 @@ class FauxAmi {
     const game = this.game.get(user.room)
 
     if (!game || game === null) {
-      console.log('Game is not existing.')
+      console.warn('Game is not existing.')
       return { error: 'Game is not existing.' }
     }
 
@@ -262,7 +304,7 @@ class FauxAmi {
     const game = this.game.get(user.room)
 
     if (!game || game === null) {
-      console.log('Game is not existing.')
+      console.warn('Game is not existing.')
       return { error: 'Game is not existing.' }
     }
 

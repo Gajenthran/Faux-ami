@@ -22,8 +22,11 @@
   "homepage": "https://github.com/Gajenthran/fauxami#readme",
   "devDependencies": {
     "concurrently": "^3.6.1",
+    "eslint": "^6.6.0",
+    "eslint-plugin-react": "^7.24.0",
     "moment": "2.24.0",
-    "nodemon": "^2.0.4"
+    "nodemon": "^2.0.4",
+    "prettier": "^2.3.2"
   },
   "dependencies": {
     "body-parser": "^1.18.3",

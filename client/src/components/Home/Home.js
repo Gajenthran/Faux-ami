@@ -5,6 +5,7 @@ import socket from './../../config/socket'
 
 import './Home.css'
 
+import { IMGS } from './../constants/images'
 import { userAvatar, NB_AVATARS } from './'
 
 const KEY_LENGTH = 8
@@ -22,10 +23,6 @@ const createRandomKey = () => {
   return key
 }
 
-/**
- * Home component to create an user and a lobby.
- * There is also game rules.
- */
 const Home = () => {
   const [name, setName] = useState('')
   const [avatarIndex, setAvatarIndex] = useState(0)
@@ -46,7 +43,7 @@ const Home = () => {
         />
         <img
           className="avatar-left-arrow"
-          src={userAvatar.leftArrow}
+          src={IMGS['leftArrow']}
           alt="left-arrow-img"
           onClick={() =>
             setAvatarIndex(
@@ -56,12 +53,12 @@ const Home = () => {
         />
         <img
           className="avatar-right-arrow"
-          src={userAvatar.rightArrow}
+          src={IMGS['rightArrow']}
           alt="right-arrow-img"
           onClick={() => setAvatarIndex((avatarIndex + 1) % NB_AVATARS)}
         />
         <input
-          placeholder="Name"
+          placeholder="Entrez votre nom..."
           type="text"
           onChange={(event) => setName(event.target.value)}
         />
@@ -69,20 +66,24 @@ const Home = () => {
           onClick={() => onCreateLobby()}
           to={name.length !== 0 ? `/game?room=${room}` : '/'}
         >
-          <button className="button mt-20" type="submit">
-            {' '}
-            CREER UN SALON{' '}
-          </button>
+          <button type="submit"> CREER UN SALON </button>
         </Link>
       </div>
     )
   }
 
+  const onRedirectGithub = () => {
+    window.location = 'https://github.com/Gajenthran'
+  }
+
+  const onReturnHome = () => {
+    window.location = '/'
+  }
+
   const renderFooter = () => {
     return (
       <div className="home--footer">
-        <p> Github □ </p>
-        <p> Gajenthran </p>
+        <p onClick={() => onRedirectGithub()}> GITHUB </p>
       </div>
     )
   }
@@ -91,11 +92,14 @@ const Home = () => {
     <>
       <div className="home-screen">
         <div className="div-home">
-        <div className="home--container">
-          <h3 className="home--title"> Faux-Ami </h3>
-          {renderAvatar()}
-          {renderFooter()}
-        </div>
+          <div className="home--container">
+            <div className="home--title" onClick={() => onReturnHome()}>
+              <h3> Faux-Ami </h3>
+              <img src={IMGS['pin']} alt="pin" />
+            </div>
+            {renderAvatar()}
+            {renderFooter()}
+          </div>
         </div>
       </div>
     </>

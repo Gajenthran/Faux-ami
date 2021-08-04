@@ -6,11 +6,8 @@ import socket from './../../config/socket'
 
 import './../Home/Home.css'
 import { userAvatar, NB_AVATARS } from './../Home'
+import { IMGS } from '../constants/images'
 
-/**
- * Home component to create an user and a lobby.
- * There is also game rules.
- */
 const Profile = ({ location }) => {
   const [name, setName] = useState('')
   const [avatarIndex, setAvatarIndex] = useState(0)
@@ -31,7 +28,7 @@ const Profile = ({ location }) => {
         />
         <img
           className="avatar-left-arrow"
-          src={userAvatar.leftArrow}
+          src={IMGS['leftArrow']}
           alt="left-arrow-img"
           onClick={() =>
             setAvatarIndex(
@@ -41,34 +38,37 @@ const Profile = ({ location }) => {
         />
         <img
           className="avatar-right-arrow"
-          src={userAvatar.rightArrow}
+          src={IMGS['rightArrow']}
           alt="right-arrow-img"
           onClick={() => setAvatarIndex((avatarIndex + 1) % NB_AVATARS)}
         />
         <input
-          placeholder="Name"
+          placeholder="Entrez votre nom..."
           type="text"
           onChange={(event) => setName(event.target.value)}
         />
-          <Link
-            onClick={() => onJoinLobby()}
-            to={name.length !== 0 ? `/game?room=${room}` : '/'}
-          >
-            <button className="button mt-20" type="submit">
-              {' '}
-              REJOINDRE LE SALON{' '}
-            </button>
-          </Link>
+        <Link
+          onClick={() => onJoinLobby()}
+          to={name.length !== 0 ? `/game?room=${room}` : '/'}
+        >
+          <button type="submit"> REJOINDRE </button>
+        </Link>
       </div>
     )
   }
 
+  const onRedirectGithub = () => {
+    window.location = 'https://github.com/Gajenthran'
+  }
+
+  const onReturnHome = () => {
+    window.location = '/'
+  }
 
   const renderFooter = () => {
     return (
       <div className="home--footer">
-        <p> Github □ </p>
-        <p> Gajenthran </p>
+        <p onClick={() => onRedirectGithub()}> GITHUB </p>
       </div>
     )
   }
@@ -77,13 +77,14 @@ const Profile = ({ location }) => {
     <>
       <div className="home-screen">
         <div className="div-home">
-        <div className="home--container">
-          <Link to={'/'}>
-            <h3 className="home--title"> Faux-Ami </h3>
-          </Link>
-          {renderAvatar()}
-          {renderFooter()}
-        </div>
+          <div className="home--container">
+            <div className="home--title" onClick={() => onReturnHome()}>
+              <h3> Faux-Ami </h3>
+              <img src={IMGS['pin']} alt="pin" />
+            </div>
+            {renderAvatar()}
+            {renderFooter()}
+          </div>
         </div>
       </div>
     </>

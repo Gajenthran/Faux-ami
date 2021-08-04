@@ -5,7 +5,7 @@ import 'react-sweet-progress/lib/style.css'
 
 import './Game.css'
 
-import { IMGS } from './../global'
+import { IMGS } from './../constants/images'
 
 const SCREEN_STATE = {
   play: 0,
@@ -87,7 +87,7 @@ const Game = ({
 
   const renderWinner = () => {
     return (
-      <div className={'bg-future-cards'}>
+      <div className="bg-future-cards">
         <div className="winner-container">
           <img
             className="winner-crown-img"
@@ -125,9 +125,7 @@ const Game = ({
     return (
       <div className="post-it" style={{ width, height, top, left, transform }}>
         <div className="post-container">
-          <div className="pin-icon" style={{ left: pinX, top: pinY }}>
-            {' '}
-          </div>
+          <div className="pin-icon" style={{ left: pinX, top: pinY }}></div>
           {img && <img alt="avatar-img" src={img} />}
 
           <p className="post-text" style={textStyle}>
@@ -143,7 +141,7 @@ const Game = ({
       <div className="post-it">
         <div className="post-container">
           <div className="pin-icon"> </div>
-          <p className="post-text">{'VOTEZ !'}</p>
+          <p className="post-text"> VOTEZ !</p>
         </div>
       </div>
     )
@@ -224,9 +222,7 @@ const Game = ({
                       ? '2px solid rgb(63, 175, 30)'
                       : '2px solid rgb(170, 8, 8)',
                 }}
-              >
-                {' '}
-              </div>
+              ></div>
               <img
                 alt="avatar-img"
                 src={usr.img}
@@ -329,9 +325,7 @@ const Game = ({
                       ? '2px solid rgb(63, 175, 30)'
                       : '2px solid rgb(170, 8, 8)',
                 }}
-              >
-                {' '}
-              </div>
+              ></div>
               <img
                 alt="avatar-img"
                 src={usr.img}
@@ -433,9 +427,7 @@ const Game = ({
                       ? 'popup .5s linear'
                       : null,
                 }}
-              >
-                {' '}
-              </div>
+              ></div>
               <img
                 alt="avatar-img"
                 src={usr.img}
@@ -585,9 +577,7 @@ const Game = ({
             </p>
           </div>
         </div>
-        <div className="pin-icon" style={{ left: '342px', top: '371px' }}>
-          {' '}
-        </div>
+        <div className="pin-icon" style={{ left: '342px', top: '371px' }}></div>
       </div>
     )
   }
@@ -629,8 +619,7 @@ const Game = ({
         {summary &&
           summary.map((text, index) => (
             <div key={index}>
-              {' '}
-              <p> {text} </p>{' '}
+              <p> {text} </p>
             </div>
           ))}
       </div>
@@ -668,8 +657,7 @@ const Game = ({
   const renderVoteButton = () => {
     return (
       <p className="vote-button" onClick={() => onValidVote()}>
-        {' '}
-        VALIDER{' '}
+        VALIDER
       </p>
     )
   }
@@ -701,8 +689,7 @@ const Game = ({
   const renderWinnerButton = () => {
     return (
       <p className="vote-button" onClick={() => onNextRound()}>
-        {' '}
-        CONTINUER{' '}
+        CONTINUER
       </p>
     )
   }
@@ -736,9 +723,20 @@ const Game = ({
     return (
       <div className="game-turn">
         <p>
-          {' '}
-          Tour {gameState.round}/{gameState.nbRound}{' '}
+          tour {gameState.round}/{gameState.nbRound}
         </p>
+      </div>
+    )
+  }
+
+  const onSkipTurn = () => {
+    socket.emit('game:skip-turn')
+  }
+
+  const renderSkipTurn = () => {
+    return (
+      <div className="game-skip-turn">
+        <p onClick={() => onSkipTurn()}> PASSER SON TOUR </p>
       </div>
     )
   }
@@ -751,6 +749,9 @@ const Game = ({
         onClick={onFullscreen}
         alt="full-screen"
       />
+      {gameState.currentPlayer === user.id &&
+        screen === SCREEN_STATE['play'] &&
+        renderSkipTurn()}
       {renderTurn()}
       {screen === SCREEN_STATE['play'] ? (
         <>

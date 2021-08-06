@@ -41,6 +41,7 @@ io.on('connection', (socket) => {
   listen(io, socket, 'lobby:create', fauxami.createLobby.bind(fauxami))
   listen(io, socket, 'lobby:check', fauxami.checkLobby.bind(fauxami))
   listen(io, socket, 'lobby:join', fauxami.joinLobby.bind(fauxami))
+  listen(io, socket, 'lobby:load-articles', fauxami.loadArticles.bind(fauxami))
   listen(io, socket, 'game:start', fauxami.startGame.bind(fauxami))
   listen(io, socket, 'game:skip-turn', fauxami.skipTurn.bind(fauxami))
   listen(io, socket, 'game:vote', fauxami.votePlayer.bind(fauxami))

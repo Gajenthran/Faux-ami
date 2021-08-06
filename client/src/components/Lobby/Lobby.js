@@ -23,27 +23,27 @@ const Lobby = ({ user, users }) => {
   const [nbCommonWords, setNbCommonWords] = useState(0)
   const [invitedMessage, setInvitedMessage] = useState(false)
   const [selectedOpt, setSelectedOpt] = useState(OPTS['parameters'])
+  const [loadArticles, setLoadArticles] = useState(false)
   const [articles, setArticles] = useState([])
   const [canStart, setCanStart] = useState(null)
 
   useEffect(() => {
-    socket.on('lobby:create-response', ({ user, articles }) => {
-      if (user === undefined || !(user.roomId || user.name))
-        return <Redirect to="/" />
-      setArticles(articles)
-      console.log(articles)
-    })
-  })
+    if (!loadArticles) {
+      setLoadArticles(true)
+      socket.emit('lobby:load-articles')
+    }
+  }, [loadArticles])
 
   useEffect(() => {
-    socket.on('lobby:join-response-user', ({ articles }) => {
-      if (articles.length === 0) setArticles(articles)
+    socket.on('lobby:load-articles-response', ({ articles }) => {
+      setArticles(articles)
     })
   }, [])
 
   useEffect(() => {
-    socket.on('lobby:join-response-all', ({ articles }) => {
-      if (articles.length === 0) setArticles(articles)
+    socket.on('lobby:create-response', ({ user }) => {
+      if (user === undefined || !(user.roomId || user.name))
+        return <Redirect to="/" />
     })
   }, [])
 
@@ -54,7 +54,7 @@ const Lobby = ({ user, users }) => {
         setCanStart(true)
       }, 2000)
     })
-  })
+  }, [])
 
   const startGame = () => {
     const articles_ = articles.filter((article) => article.checked)
@@ -190,19 +190,26 @@ const Lobby = ({ user, users }) => {
       <div className="lobby-users-options-articles">
         {articles.map((article, index) => (
           <div key={index} className="lobby-users-options-article">
-            <label className="label-article" for={`checkbox-${index}`}>
+            <label className="label-article" htmlFor={`checkbox-${index}`}>
               {article.title}
               <input
                 type="checkbox"
                 className="checkbox-article"
                 id={`checkbox-${index}`}
                 checked={article.checked}
-                onClick={() => onCheckArticle(index)}
+                onChange={() => onCheckArticle(index)}
               />
-              <span class="checkmark-article"></span>
+              <span className="checkmark-article"></span>
             </label>
           </div>
         ))}
+        {articles.length === 0 && (
+          <div className="lobby-users-options-article">
+            <label className="label-article">
+              TU NE PEUX PAS CHOISIR D'ARTICLES
+            </label>
+          </div>
+        )}
       </div>
     )
   }

@@ -150,7 +150,6 @@ class FauxAmi {
     if (endGame) {
       io.to(user.room).emit('game:end-game', {
         users: game.getUsers(),
-        gameState: game.getGameState(),
       })
     } else {
       io.to(user.room).emit('game:new-round', {
@@ -197,6 +196,16 @@ class FauxAmi {
     setTimeout(() => {
       io.to(user.room).emit('lobby:create-response', {
         user,
+        articles: Game.ARTICLES_.map((article) => {
+          return { id: article.id, title: article.title, checked: true }
+        }),
+      })
+    }, 300)
+  }
+
+  loadArticles(io, socket) {
+    setTimeout(() => {
+      io.to(socket.id).emit('lobby:load-articles-response', {
         articles: Game.ARTICLES_.map((article) => {
           return { id: article.id, title: article.title, checked: true }
         }),
@@ -320,12 +329,6 @@ class FauxAmi {
     }
   }
 
-  /**
-   * Remove user from the lobby or the game.
-   *
-   * @param {object} io - io
-   * @param {object} socket - socket io
-   */
   removeUser(io, socket) {
     const index = this.users.findIndex((user) => user.id === socket.id)
 
@@ -335,16 +338,20 @@ class FauxAmi {
       const room = user.room
       const game = this.game.get(room)
       if (game) {
-        if (game.disconnect(user.id)) {
-          this.game.delete(room)
-          return
-        }
-
+        game.removeUser(user.id)
         this.users.splice(index, 1)
-        io.to(user.room).emit('game:disconnect', {
-          users: getUsersInRoom(game.getUsers(), user.room),
-          gameState: game.getGameState(),
-        })
+        const newRound = game.getUsers().length >= 4 && game.newRound(true)
+        if (newRound) {
+          io.to(user.room).emit('game:new-round', {
+            users: game.getUsers(),
+            gameState: game.getGameState(),
+          })
+        } else {
+          game.rankUsers()
+          io.to(user.room).emit('game:end-game', {
+            users: game.getUsers(),
+          })
+        }
       } else {
         this.users.splice(index, 1)
         io.to(user.room).emit('game:disconnect', {

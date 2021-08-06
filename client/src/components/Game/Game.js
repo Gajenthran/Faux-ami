@@ -13,14 +13,7 @@ const SCREEN_STATE = {
   result: 2,
 }
 
-const Game = ({
-  socket,
-  user,
-  users,
-  gameState,
-  playSettings,
-  onFullscreen,
-}) => {
+const Game = ({ socket, user, users, gameState, preview, onFullscreen }) => {
   const [winner, setWinner] = useState(null)
   const [screen, setScreen] = useState(SCREEN_STATE['play'])
   const [isCounterActive, setCounterActive] = useState(false)
@@ -37,7 +30,6 @@ const Game = ({
     socket.on('game:new-game', ({ users }) => {
       const _usersWords = new Map()
       for (let i = 0; i < users.length; i++) _usersWords.set(users[i].id, [])
-      console.log(_usersWords)
       setUsersWords(_usersWords)
     })
   }, [socket])
@@ -87,7 +79,7 @@ const Game = ({
 
   const renderWinner = () => {
     return (
-      <div className="bg-future-cards">
+      <div className="bg-winner">
         <div className="winner-container">
           <img
             className="winner-crown-img"
@@ -108,29 +100,14 @@ const Game = ({
     )
   }
 
-  const renderTitle = (
-    width,
-    height,
-    top,
-    left,
-    text,
-    textStyle,
-    img,
-    imgX,
-    imgY,
-    transform,
-    pinX,
-    pinY
-  ) => {
+  const renderTitle = () => {
     return (
-      <div className="post-it" style={{ width, height, top, left, transform }}>
-        <div className="post-container">
-          <div className="pin-icon" style={{ left: pinX, top: pinY }}></div>
-          {img && <img alt="avatar-img" src={img} />}
-
-          <p className="post-text" style={textStyle}>
-            {gameState.article.title}
-          </p>
+      <div className="article-title">
+        <div className="pin-icon"></div>
+        <h2 className="article-header">{gameState.article.title}</h2>
+        <div className="article-calendar">
+          <p>{gameState.article.date}</p>
+          <img src={IMGS['calendar']} alt="calendar-img" />
         </div>
       </div>
     )
@@ -138,10 +115,11 @@ const Game = ({
 
   const renderVoteTitle = () => {
     return (
-      <div className="post-it">
-        <div className="post-container">
-          <div className="pin-icon"> </div>
-          <p className="post-text"> VOTEZ !</p>
+      <div className="article-title">
+        <div className="pin-icon"></div>
+        <h2 className="article-header">VOTEZ !</h2>
+        <div className="article-validated">
+          <p> {validVote ? 'Validé !' : 'En cours...'} </p>
         </div>
       </div>
     )
@@ -149,11 +127,9 @@ const Game = ({
 
   const renderWinnerTitle = () => {
     return (
-      <div className="post-it">
-        <div className="post-container">
-          <div className="pin-icon"> </div>
-          <p className="post-text">RÉSULTAT !</p>
-        </div>
+      <div className="article-title">
+        <div className="pin-icon"></div>
+        <h2 className="article-header">RÉSULTAT !</h2>
       </div>
     )
   }
@@ -185,92 +161,51 @@ const Game = ({
   const renderVoteUsers = () => {
     return (
       <div
-        className="avatars-container"
-        style={{
-          top: '17%',
-          left: '0%',
-          transform: users.length > 6 ? 'scale(0.8)' : 'scale(1)',
-        }}
+        className="users-container"
+        style={{ transform: users.length > 6 ? 'scale(0.8)' : 'scale(1)' }}
       >
-        {users.map((usr, index) => (
+        {users.map((u, index) => (
           <div
             key={index}
-            className={`post-it ${
-              !validVote && usr.id !== socket.id ? 'underline-player' : null
+            className={`user-container ${
+              !validVote && u.id !== socket.id ? 'underlined-user' : ''
             }`}
-            style={{
-              position: 'relative',
-              left: '0%',
-              width: '170px',
-              height: '210px',
-              margin: '2px 5px',
-              display: 'flex',
-              flexDirection: 'column',
-            }}
-            onClick={() => onVote(usr.id)}
+            onClick={() => onVote(u.id)}
           >
-            <div className="post-container">
+            <div className="user-details">
               <div
                 className="pin-icon"
                 style={{
-                  backgroundColor:
-                    usr.id === socket.id
-                      ? 'rgb(111, 240, 71)'
-                      : 'rgb(221, 39, 39)',
+                  backgroundColor: u.id === socket.id ? '#6ff047' : '#dd2727',
                   border:
-                    usr.id === socket.id
-                      ? '2px solid rgb(63, 175, 30)'
-                      : '2px solid rgb(170, 8, 8)',
+                    u.id === socket.id
+                      ? '2px solid #3faf1e'
+                      : '2px solid #aa0808',
                 }}
               ></div>
-              <img
-                alt="avatar-img"
-                src={usr.img}
-                style={{
-                  width: '120px',
-                  height: '120px',
-                  top: '20px',
-                  left: '27px',
-                }}
-              />
-
-              <p
-                className="post-text"
-                style={{
-                  fontSize: '30px',
-                  top: '150px',
-                  color: '#BD9B72',
-                }}
-              >
-                {usr.name}
-              </p>
-              <p
-                className="post-text"
-                style={{
-                  fontSize: '20px',
-                  top: '180px',
-                }}
-              >
-                {usr.role.role}
-              </p>
+              <img className="user-avatar" alt="avatar-img" src={u.img} />
+              <p className="user-name">{u.name}</p>
+              <p className="user-role">{u.role.role}</p>
             </div>
-            <div className="keywords-users-vote" style={{ top: '220px' }}>
-              {usersWords.get(usr.id).map((userWord, index) => (
-                <div key={index}>
+
+            <div className="keywords-users-vote">
+              {usersWords.get(u.id).map((userWord, index) => (
+                <div key={index} onClick={() => onRemoveWord(u.id, userWord)}>
                   <p> {userWord} </p>
                 </div>
               ))}
             </div>
+
             <div className="vote-users">
-              {usr.vote.map((voter, index) => (
+              {u.vote.map((voter, index) => (
                 <img
                   key={index}
                   src={voter.img}
                   alt="avatar-susp"
                   style={{
                     border: voter.confirmed
-                      ? '2px solid rgb(218, 238, 121)'
-                      : '2px solid rgb(248, 233, 213)',
+                      ? '2px solid #daee79'
+                      : '2px solid #f8e9d5',
                   }}
                 />
               ))}
@@ -284,79 +219,33 @@ const Game = ({
   const renderWinnerUsers = () => {
     return (
       <div
-        className="avatars-container"
-        style={{
-          top: '25%',
-          left: '0%',
-          transform: users.length > 6 ? 'scale(0.8)' : 'scale(1)',
-        }}
+        className="users-container"
+        style={{ transform: users.length > 6 ? 'scale(0.8)' : 'scale(1)' }}
       >
         {users.map((usr, index) => (
-          <div
-            key={index}
-            className={`post-it`}
-            style={{
-              position: 'relative',
-              left: '0%',
-              width: '170px',
-              height: '210px',
-              margin: '2px 5px',
-              display: 'flex',
-              flexDirection: 'column',
-            }}
-            onClick={() => onVote(usr.id)}
-          >
+          <div key={index} className="user-container">
             <div className="post-role">
               <img
                 src={usr.spy ? IMGS['spy'] : IMGS['profile']}
                 alt="role-img"
               />
             </div>
-            <div className="post-container">
+            <div className="user-details">
               <div
                 className="pin-icon"
                 style={{
-                  backgroundColor:
-                    usr.id === socket.id
-                      ? 'rgb(111, 240, 71)'
-                      : 'rgb(221, 39, 39)',
+                  backgroundColor: usr.id === socket.id ? '#6ff047' : '#dd2727',
                   border:
                     usr.id === socket.id
-                      ? '2px solid rgb(63, 175, 30)'
-                      : '2px solid rgb(170, 8, 8)',
+                      ? '2px solid #3faf1e'
+                      : '2px solid #aa0808',
                 }}
               ></div>
-              <img
-                alt="avatar-img"
-                src={usr.img}
-                style={{
-                  width: '120px',
-                  height: '120px',
-                  top: '20px',
-                  left: '27px',
-                }}
-              />
-
-              <p
-                className="post-text"
-                style={{
-                  fontSize: '30px',
-                  top: '150px',
-                  color: '#BD9B72',
-                }}
-              >
-                {usr.name}
-              </p>
-              <p
-                className="post-text"
-                style={{
-                  fontSize: '20px',
-                  top: '180px',
-                }}
-              >
-                {usr.role.role}
-              </p>
+              <img className="user-avatar" alt="avatar-img" src={usr.img} />
+              <p className="user-name">{usr.name}</p>
+              <p className="user-role">{usr.role.role}</p>
             </div>
+
             <div className="users-score">
               <CountUp
                 start={usr.score - usr.currentScore}
@@ -384,98 +273,47 @@ const Game = ({
   const renderUsers = () => {
     return (
       <div
-        className="avatars-container"
-        style={{
-          top: '25%',
-          left: '0%',
-          transform: users.length > 6 ? 'scale(0.8)' : 'scale(1)',
-        }}
+        className="users-container"
+        style={{ transform: users.length > 6 ? 'scale(0.8)' : 'scale(1)' }}
       >
         {users.map((usr, index) => (
           <div
             key={index}
-            className={`post-it ${keyword ? 'underline-player' : null}`}
+            className={`user-container ${keyword ? 'underlined-user' : ''}`}
             style={{
-              position: 'relative',
-              left: '0%',
-              width: '170px',
-              height: '210px',
-              margin: '2px 5px',
-              display: 'flex',
-              flexDirection: 'column',
               backgroundColor:
-                usr.id === gameState.currentPlayer
-                  ? 'rgb(248, 232, 212)'
-                  : 'rgb(216, 202, 184)',
+                usr.id === gameState.currentPlayer ? '#f8e8d4' : '#d8cab8',
             }}
             onClick={() => onPlaceWord(usr.id)}
           >
-            <div className="post-container">
+            <div className="user-details">
               <div
                 className="pin-icon"
                 style={{
-                  backgroundColor:
-                    usr.id === socket.id
-                      ? 'rgb(111, 240, 71)'
-                      : 'rgb(221, 39, 39)',
+                  backgroundColor: usr.id === socket.id ? '#6ff047' : '#dd2727',
                   border:
                     usr.id === socket.id
-                      ? '2px solid rgb(63, 175, 30)'
-                      : '2px solid rgb(170, 8, 8)',
+                      ? '2px solid #3faf1e'
+                      : '2px solid #aa0808',
                   animation:
                     usr.id === gameState.currentPlayer
                       ? 'popup .5s linear'
                       : null,
                 }}
               ></div>
-              <img
-                alt="avatar-img"
-                src={usr.img}
-                style={{
-                  width: '120px',
-                  height: '120px',
-                  top: '20px',
-                  left: '27px',
-                }}
-              />
+              <img className="user-avatar" alt="avatar-img" src={usr.img} />
 
-              <p
-                className="post-text"
-                style={{
-                  fontSize: '30px',
-                  top: '150px',
-                  color: '#BD9B72',
-                }}
-              >
-                {usr.name}
-              </p>
-              <p
-                className="post-text"
-                style={{
-                  fontSize: '20px',
-                  top: '180px',
-                }}
-              >
-                {usr.role.role}
-              </p>
+              <p className="user-name">{usr.name}</p>
+              <p className="user-role">{usr.role.role}</p>
             </div>
             {usr.id === gameState.currentPlayer && (
               <Progress
                 percent={(seconds * 100) / gameState.duration}
                 className="timer-bar"
                 theme={{
-                  success: {
-                    symbol: '⏰',
-                    color: 'rgb(216, 202, 184)',
-                  },
-                  default: {
-                    symbol: ' ',
-                    color: 'rgb(216, 202, 184)',
-                  },
-                  active: {
-                    symbol: ' ',
-                    color: 'rgb(216, 202, 184)',
-                  },
+                  success: { symbol: ' ', color: '#d8cab8' },
+                  default: { symbol: ' ', color: '#d8cab8' },
+                  active: { symbol: ' ', color: '#d8cab8' },
                 }}
               />
             )}
@@ -492,91 +330,11 @@ const Game = ({
     )
   }
 
-  const renderValidation = () => {
-    return (
-      <div
-        className="post-it"
-        style={{
-          width: '240px',
-          height: '40px',
-          top: '2%',
-          left: '64%',
-          transform: 'rotateZ(-2deg)',
-        }}
-      >
-        <div className="post-container">
-          <p className="post-text" style={{ top: '5px' }}>
-            {validVote ? 'Validé !' : 'En cours...'}
-          </p>
-        </div>
-      </div>
-    )
-  }
-
-  const renderDate = () => {
-    return (
-      <div
-        className="post-it"
-        style={{
-          width: '240px',
-          height: '40px',
-          top: '14%',
-          left: '64%',
-          transform: 'rotateZ(-2deg)',
-        }}
-      >
-        <div className="post-container">
-          <p className="post-text" style={{ top: '5px' }}>
-            {gameState.article.date}
-          </p>
-          <img
-            src={IMGS['calendar']}
-            alt="calendar-img"
-            style={{
-              width: '70px',
-              height: '70px',
-              right: '-50px',
-              top: '10px',
-              transform: 'rotateZ(9deg)',
-            }}
-          />
-        </div>
-      </div>
-    )
-  }
-
   const renderPlace = () => {
     return (
-      <div
-        style={{
-          position: 'absolute',
-          top: '-50px',
-        }}
-      >
-        <img
-          src={IMGS['map']}
-          alt="map-img"
-          style={{
-            width: '400px',
-            height: '400px',
-            transform: 'rotateZ(5deg)',
-          }}
-        />
-        <div
-          className="post-it"
-          style={{
-            width: '240px',
-            height: '40px',
-            top: '50%',
-            transform: 'rotateZ(-2deg)',
-          }}
-        >
-          <div className="post-container">
-            <p className="post-text" style={{ top: '5px' }}>
-              {gameState.article.location}
-            </p>
-          </div>
-        </div>
+      <div className="article-place">
+        <img src={IMGS['map']} alt="map-img" />
+        <p>{gameState.article.location}</p>
         <div className="pin-icon" style={{ left: '342px', top: '371px' }}></div>
       </div>
     )
@@ -589,13 +347,10 @@ const Game = ({
         {keywords &&
           keywords.map((word, index) => {
             return (
-              <div key={index}>
+              <div className="keywords-element" key={index}>
                 <p
                   style={{
-                    backgroundColor:
-                      word === keyword
-                        ? 'rgb(248, 232, 212)'
-                        : 'rgb(216, 202, 184)',
+                    backgroundColor: word === keyword ? '#f8e8d4' : '#d8cab8',
                     boxShadow:
                       word === keyword
                         ? '0 0 0 rgba(0, 0, 0, .5)'
@@ -668,6 +423,7 @@ const Game = ({
 
   useEffect(() => {
     socket.on('game:end-game', ({ users }) => {
+      setScreen(SCREEN_STATE['result'])
       setWinner(users[0])
     })
   }, [socket])
@@ -694,27 +450,24 @@ const Game = ({
     )
   }
 
-  const onValidSettings = () => {
+  const onStartRound = () => {
     socket.emit('game:start-round')
   }
 
-  const renderSettings = () => {
-    console.log('settings')
+  const renderPreview = () => {
     return (
-      <div className="bg-settings">
-        <div className="post-it">
-          <div className="post-container">
-            <div className="pin-icon"> </div>
-            <p className="post-text">{gameState.article.title}</p>
-          </div>
+      <div className="bg-preview">
+        <div className="preview-title">
+          <div className="pin-icon"> </div>
+          <p>{gameState.article.title}</p>
         </div>
 
-        <div className="settings-post-it">
-          <div className="post-container">
-            <p> {gameState.article.description} </p>
-          </div>
-          <button onClick={() => onValidSettings()}> OK ! </button>
+        <div className="preview-description">
+          <p> {gameState.article.description} </p>
         </div>
+        <button className="preview-btn" onClick={() => onStartRound()}>
+          OK !
+        </button>
       </div>
     )
   }
@@ -742,7 +495,7 @@ const Game = ({
   }
 
   return (
-    <div id="game-board">
+    <div id="game-container-id" className="div-game-container">
       <img
         className="game-full-screen"
         src={IMGS['fullScreen']}
@@ -755,19 +508,17 @@ const Game = ({
       {renderTurn()}
       {screen === SCREEN_STATE['play'] ? (
         <>
-          {renderTitle()}
-          {renderDate()}
+          {preview && renderPreview()}
           {renderPlace()}
-          {renderUsers()}
-          {renderKeywords()}
           {renderSummary()}
           {renderAdvice()}
-          {playSettings && renderSettings()}
+          {renderTitle()}
+          {renderUsers()}
+          {renderKeywords()}
         </>
       ) : screen === SCREEN_STATE['vote'] ? (
         <>
           {renderVoteTitle()}
-          {renderValidation()}
           {renderVoteUsers()}
           {!validVote && renderVoteButton()}
         </>

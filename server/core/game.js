@@ -120,8 +120,8 @@ class Game {
       this.users[i].comments = []
     }
 
-    this.usersOrder = Array.from(Array(this.users.length), (_, index) => index)
-    shuffleArray(this.usersOrder)
+    this.order = Array.from(Array(this.users.length), (_, index) => index)
+    shuffleArray(this.order)
     this.currentPlayer = 0
   }
 
@@ -197,7 +197,7 @@ class Game {
   getGameState() {
     return {
       users: this.users,
-      currentPlayer: this.users[this.usersOrder[this.currentPlayer]].id,
+      currentPlayer: this.users[this.order[this.currentPlayer]].id,
       round: this.round,
       nbRound: this.options.nbRound,
       duration: this.options.countdown,
@@ -232,7 +232,6 @@ class Game {
       if (!this.users[i].spy) {
         found = false
         onlyVoter = false
-        // const voted = spies.find(spy => spy.id === this.users[i].id)
         for (let s = 0; s < spies.length; s++) {
           const voted = spies[s].vote.find((v) => v.id === this.users[i].id)
           if (voted) {
@@ -259,10 +258,10 @@ class Game {
     this.users.sort((u1, u2) => (u1.score < u2.score ? 1 : -1))
   }
 
-  newRound() {
+  newRound(quit) {
     this.round++
 
-    if (this.round > this.options.nbRound) {
+    if (this.round > this.options.nbRound || quit === true) {
       this.rankUsers()
       return false
     }
@@ -313,8 +312,8 @@ class Game {
       this.users[i].comments = []
     }
 
-    this.usersOrder = Array.from(Array(this.users.length), (_, index) => index)
-    shuffleArray(this.usersOrder)
+    this.order = Array.from(Array(this.users.length), (_, index) => index)
+    shuffleArray(this.order)
     this.currentPlayer = 0
 
     return true
@@ -327,20 +326,27 @@ class Game {
   }
 
   disconnect(id) {
-    if (id === this.users[this.currentPlayer].id) {
+    if (id === this.users[this.order[this.currentPlayer]].id) {
+      this.order.splice(this.currentPlayer, 1)
       this.removeUser(id)
-      if (this.users.length === 0) return true
-      let currentPlayer = this.currentPlayer
-      do {
-        currentPlayer = (currentPlayer + 1) % this.users.length
-      } while (this.users[currentPlayer].loose)
-      this.currentPlayer = currentPlayer
+      if (this.users.length === 0) return { status: 'END' }
+      let currentPlayer = (this.currentPlayer + 1) % this.users.length
+      if (currentPlayer === 0) this.turn++
+
+      const endRound = this.turn > this.options.nbTurn
+      if (endRound) {
+        this.resetCountdown()
+        this.clearCountdown()
+      }
+
+      return { status: 'END-ROUND' }
     } else {
+      this.order.splice(this.currentPlayer, 1)
       const index = this.removeUser(id)
       if (index !== -1 && this.currentPlayer > index) this.currentPlayer--
     }
 
-    return false
+    return { status: 'CONTINUE' }
   }
 
   setCountdown(fct, timeout) {

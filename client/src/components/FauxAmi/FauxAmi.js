@@ -17,10 +17,10 @@ const FauxAmi = ({ location }) => {
   const [user, setUser] = useState({})
   const [lobbyChecked, setLobbyChecked] = useState(false)
   const [playState, setPlayState] = useState(LOBBYSTATE)
-  const [playSettings, setPlaySettings] = useState(false)
+  const [preview, setPreview] = useState(false)
 
   const onFullscreen = () => {
-    const elem = document.getElementById('game-board')
+    const elem = document.getElementById('game-container-id')
 
     // Firefox
     if (document.mozFullScreenEnabled) {
@@ -102,7 +102,7 @@ const FauxAmi = ({ location }) => {
       setUser(users.find((usr) => usr.id === socket.id))
       setUsers(users)
       setGameState(gameState)
-      setPlaySettings(true)
+      setPreview(true)
       setPlayState(GAMESTATE)
     })
   }, [])
@@ -112,13 +112,13 @@ const FauxAmi = ({ location }) => {
       setUser(users.find((usr) => usr.id === socket.id))
       setUsers(users)
       setGameState(gameState)
-      setPlaySettings(true)
+      setPreview(true)
     })
   }, [])
 
   useEffect(() => {
     socket.on('game:start-round-response', () => {
-      setPlaySettings(false)
+      setPreview(false)
     })
   }, [])
 
@@ -188,7 +188,7 @@ const FauxAmi = ({ location }) => {
           user={user}
           users={users}
           gameState={gameState}
-          playSettings={playSettings}
+          preview={preview}
           onFullscreen={onFullscreen}
         />
       ) : null}

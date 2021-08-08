@@ -14,7 +14,7 @@ const TEAM_SPLIT = [
   [1, 3],
   [2, 3],
   [2, 4],
-  [3, 5],
+  [2, 5],
   [3, 5],
 ]
 Object.freeze(TEAM_SPLIT)

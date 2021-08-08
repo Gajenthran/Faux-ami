@@ -1529,6 +1529,132 @@
           "suspicious": []
         }
       ]
+    },
+    {
+      "id": 22,
+      "date": "06-08-2007",
+      "title": "Ind'oxication de Rafael",
+      "location": "New Delhi, Inde",
+      "summary": [
+        "rafael",
+        "intoxication",
+        "poison mortel",
+        "coup monté ou accident ?"
+      ],
+      "keywords": [
+        "suicide",
+        "dompteur",
+        "trahi",
+        "anonyme",
+        "projection",
+        "Allemagne"
+      ],
+      "spyKeywords": [
+        "poison",
+        "nounou",
+        "bénévole",
+        "démasquer",
+        "infection",
+        "Suisse"
+      ],
+      "description": "A la suite de son voyage en Inde, pour discuter business avec son acolyte de toujours Lee, Rafael a été rapidement hospitalisé. Les médécins lui diagnostiquèrent une intoxication due à un poison mortel ! Que s’est t-il réellement passé ? Qui était à l’origine de cette affaire ? Nous savons également que l'ex de Rafael, était présente en Inde avec le cousin de Rafael pour un voyage qu'elle qualifie de \"mémorable\".",
+      "players": [
+        {
+          "role": "lee",
+          "suspicious": []
+        },
+        {
+          "role": "rafael (mourant)",
+          "suspicious": []
+        },
+        {
+          "role": "ex",
+          "suspicious": []
+        },
+        {
+          "role": "cousin",
+          "suspicious": []
+        },
+        {
+          "role": "femme",
+          "suspicious": []
+        },
+        {
+          "role": "pilote",
+          "suspicious": []
+        },
+        {
+          "role": "mère",
+          "suspicious": []
+        },
+        {
+          "role": "garde du corps",
+          "suspicious": []
+        }
+      ]
+    },
+    {
+      "id": 23,
+      "date": "17-11-2011",
+      "title": "Quel est le meilleur métier ?",
+      "location": "Stanford, Etats-Unis",
+      "summary": [
+        "meilleur métier",
+        "effort",
+        "difficulté",
+        "salaire"
+      ],
+      "keywords": [
+        "méprisable",
+        "bagnole",
+        "illisible",
+        "agriculteur",
+        "soupe",
+        "cloche"
+      ],
+      "spyKeywords": [
+        "gêné",
+        "charette",
+        "opaque",
+        "journaliste",
+        "pain",
+        "malette"
+      ],
+      "description": "Grâce à un énorme sondage parcourant l'ensemble des Etats-Unis, l'université de Stanford a permis de lister les métiers les plus populaires et les plus enviés par la population américaine. Le verdict est tombé: le métier le plus attrayant correspond au métier de steward. Une honte absolute pour certains et un choix totalement logique pour d'autres. Et vous, qu'en pensez-vous, le choix est-il justifié ?",
+      "players": [
+        {
+          "role": "lycéen",
+          "suspicious": []
+        },
+        {
+          "role": "collégien",
+          "suspicious": []
+        },
+        {
+          "role": "informaticien",
+          "suspicious": []
+        },
+        {
+          "role": "footballeur",
+          "suspicious": []
+        },
+        {
+          "role": "psychologue",
+          "suspicious": []
+        },
+        {
+          "role": "influenceur",
+          "suspicious": []
+        },
+        {
+          "role": "professeur",
+          "suspicious": []
+        },
+        {
+          "role": "steward",
+          "suspicious": []
+        }
+      ]
     }
   ]
 }
